@@ -11,6 +11,6 @@ while (1):
             bot.sende_nachricht(str(id), id)
         if (nachricht[0] == "/help"
             bot.sende_nachricht("Der JanisFelixBot kann folgende Befehle:
-                                /help /id"
+                                /help /id")
                                 
                                 
