@@ -1,5 +1,5 @@
 from chatter.telegramBot import TelegramBot
-bot=TelegramBot("257382012:AAHNiJsoi8kO3r5TxYLseMh3lMYEH-Kf6bM")
+bot=TelegramBot("hier bot token einfügen")
 while (1):
     nachrichten = bot.hole_updates()
     for nachrichtraw in nachrichten:
