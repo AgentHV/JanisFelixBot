@@ -1,4 +1,4 @@
-# felixjanisbot
+# JanisFelixBot
 
 ### Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
