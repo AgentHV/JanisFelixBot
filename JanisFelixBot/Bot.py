@@ -1,6 +1,6 @@
 import time
 from chatter.telegramBot import TelegramBot
-bot=TelegramBot("270793864:AAEDb8NLGEIRFDf8BTgr0MyLgfdcXlqWIFg")
+bot=TelegramBot("token einfügen")
 bot.gehe_online()
 otherbots = open("otherbots.txt").readlines()
 admins = open("admins.txt").readlines()
@@ -62,7 +62,15 @@ while (1):
                         send = send + message[x] + " "
                     bot.sende_nachricht(send, -151573627)
                 else:
-                    bot.sende_nachricht("Bitte schicke mir dieses Command so: \n /gruppevorschlagen <Gruppenname und kurze Vorstellung der Gruppe> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid)
+                    bot.sende_nachricht("Bitte schicke mir diesen Command so: \n /gruppevorschlagen <Gruppenname und kurze Vorstellung der Gruppe> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid)
+            if (nachricht[0] == "ayy"):
+                    bot.sende_nachricht("lmao", chatid)
+            if (nachricht[0] == "lmao"):
+                    bot.sende_nachricht("ayy", chatid)
+            if (nachricht[0] == "rip"):
+                    bot.sende_nachricht("rest in pieces", chatid)
+            if (nachricht[0] == "JanisFelixBot"):
+                    bot.sende_nachricht("Das bin ich!", chatid)
 # Alles was mit Usergruppen zu tun hat
             if (nachricht[0] == "/stop"):
                 if (str(userid) in admins):
@@ -75,7 +83,5 @@ while (1):
                     bot.sende_nachricht("Du bist ein Admin!", chatid)
                 else:
                     bot.sende_nachricht("Du wurdest nicht kategorisiert!", chatid)
-
-
 
 
