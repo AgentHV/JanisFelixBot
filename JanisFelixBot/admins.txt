@@ -1,0 +1,4 @@
+Ersetze diesen Text durch die IDs der Leute, die Admins sein sollen. Das sollte dann so aussehen:
+12345678
+-9999999999
+11223344
