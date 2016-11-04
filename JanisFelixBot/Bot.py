@@ -63,14 +63,14 @@ while (1):
                     bot.sende_nachricht(send, -151573627)
                 else:
                     bot.sende_nachricht("Bitte schicke mir diesen Command so: \n /gruppevorschlagen <Gruppenname und kurze Vorstellung der Gruppe> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid)
-            if (nachricht[0] == "ayy"):
-                    bot.sende_nachricht("lmao", chatid)
-            if (nachricht[0] == "lmao"):
-                    bot.sende_nachricht("ayy", chatid)
-            if (nachricht[0] == "rip"):
-                    bot.sende_nachricht("rest in pieces", chatid)
+            if ("ayy" in message or "ayy" in nachricht):
+                bot.sende_nachricht("lmao", chatid)
+            if ("lmao" in message or "lmao" in nachricht):
+                bot.sende_nachricht("ayy", chatid)
+            if ("rip" in message or "rip" in nachricht):
+                bot.sende_nachricht("rest in pieces", chatid)
             if (nachricht[0] == "JanisFelixBot"):
-                    bot.sende_nachricht("Das bin ich!", chatid)
+                bot.sende_nachricht("Das bin ich!", chatid)
 # Alles was mit Usergruppen zu tun hat
             if (nachricht[0] == "/stop"):
                 if (str(userid) in admins):
