@@ -69,7 +69,7 @@ while (1):
                 bot.sende_nachricht("ayy", chatid)
             if ("rip" in message or "rip" in nachricht):
                 bot.sende_nachricht("rest in pieces", chatid)
-            if (nachricht[0] == "JanisFelixBot"):
+            if ("JanisFelixBot" in message or "JanisFelixBot" in nachricht):
                 bot.sende_nachricht("Das bin ich!", chatid)
 # Alles was mit Usergruppen zu tun hat
             if (nachricht[0] == "/stop"):
@@ -80,7 +80,7 @@ while (1):
                     bot.sende_nachricht("Du bist kein Admin!", chatid)
             if (nachricht[0] == "/group"):
                 if (str(userid) in admins):
-                    bot.sende_nachricht("Du bist ein Admin!", chatid)
+                    bot.sende_nachricht("Du bist ein globaler Admin!", chatid)
                 else:
                     bot.sende_nachricht("Du wurdest nicht kategorisiert!", chatid)
 
