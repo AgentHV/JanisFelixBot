@@ -1,6 +1,6 @@
 import time
 from chatter.telegramBot import TelegramBot
-bot=TelegramBot("bot token einfügen")
+bot=TelegramBot("270793864:AAHQIQ5sliwQLbz_31ji1lPZSdcG5vXHw4o")
 bot.gehe_online()
 otherbots = open("otherbots.txt").readlines()
 admins = open("admins.txt").readlines()
@@ -25,6 +25,7 @@ def alarm(verstoss):
     send = ("Achtung! Der User " + str(uservorname) + " (" + str(userid) + ") hat versucht die folgende Sache zu machen: \n " + str(verstoss))
     bot.sende_nachricht(send, -151573627)
     print(send)
+    bot.sende_nachricht("Du bist kein Admin, Anzeige ist raus!", chatid, nachrichtid)
 
 
 while (1):
@@ -64,13 +65,17 @@ while (1):
             if (nachricht[0] == "/help"):
                 bot.sende_nachricht(helptext, chatid, nachrichtid)
 
-            if (nachricht[0] == "/send"):
-                if (str(userid) in admins):
-                    try:
-                        bot.sende_nachricht("")
-                    except:
-                        bot.sende_nachricht("Ups, es ist ein Fehler aufgetreten! Bitte schick mir das Command so: \n /send <id> <text>")
-
+            if (nachricht[0] == "/feedback"):
+                if (len(message) > 1):
+                    words = len(message)
+                    send = "Ein feedback von " + uservorname + "(" + str(userid) + ") wurde gesendet. \n"
+                    for x in range(1, words):
+                        send = send + message[x] + " "
+                    bot.sende_nachricht(send, -151573627)
+                    bot.sende_nachricht("Dein Feedback wurde versendet! Wir werden dich kontaktieren!", chatid)
+                else:
+                    bot.sende_nachricht(
+                        "Bitte schicke mir diesen Command so: \n /feedback <Deine Verbesserungsvorschläge, Dein Lob, was au immer> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
 #Spaßantworten
             if ("ayy" in message or "ayy" in nachricht):
                 bot.sende_nachricht("lmao", chatid, nachrichtid)
@@ -92,16 +97,6 @@ while (1):
             if (nachricht[0] == "/grbj"):
                 bot.sende_nachricht("Eine kleine Gruppe, in der man mit dem @blackjackbot spielen kann! Kommt einfach rein: telegram.me/playblackjack", chatid, nachrichtid)
 
-            if (nachricht[0] == "/feedback"):
-                if (len(message) > 1):
-                    words=len(message)
-                    send = "Ein feedback von " + uservorname + "(" + str(userid) + ") wurde gesendet. \n"
-                    for x in range(1, words):
-                        send = send + message[x] + " "
-                    bot.sende_nachricht(send, -151573627)
-                else:
-                    bot.sende_nachricht("Bitte schicke mir diesen Command so: \n /feedback <Deine Verbesserungsvorschläge> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
-
             if (nachricht[0] == "/gruppevorschlagen"):
                 if (len(message) > 1):
                     words=len(message)
@@ -109,21 +104,34 @@ while (1):
                     for x in range(1, words):
                         send = send + message[x] + " "
                     bot.sende_nachricht(send, -151573627)
+                    bot.sende_nachricht("Dein Vorschlag wurde versendet! Wir werden dich kontaktieren!", chatid, nachrichtid)
                 else:
                     bot.sende_nachricht("Bitte schicke mir dieses Command so: \n /gruppevorschlagen <Gruppenname und kurze Vorstellung der Gruppe> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
-
-            if (nachricht[0] == "/stop"):
-                if (str(userid) in admins):
-                    bot.sende_nachricht("Der Bot beendet sich jetzt!", chatid, nachrichtid)
-                    raise
-                else:
-                      bot.sende_nachricht("Du bist kein Admin, Anzeige ist raus!", chatid, nachrichtid)
-                      alarm("Bot mit /stop beenden")
 # Alles was mit Usergruppen zu tun hat
             if (nachricht[0] == "/group"):
                 if (str(userid) in admins):
                     bot.sende_nachricht("Du bist ein globaler Admin!", chatid, nachrichtid)
                 else:
                     bot.sende_nachricht("Du wurdest nicht kategorisiert!", chatid, nachrichtid)
-
-
+#Admincommands
+            if (nachricht[0] == "/stop"):
+                if (str(userid) in admins):
+                    bot.sende_nachricht("Der Bot beendet sich jetzt!", chatid, nachrichtid)
+                    raise
+                else:
+                      alarm("Bot mit /stop beenden")
+            if (nachricht[0] == "/send"):
+                if (str(userid) in admins):
+                    try:
+                        words = len(message)
+                        send = ("Hier ist eine Nachricht von " + uservorname + " aus dem Team. Bitte beachte, dass aufgrund einer Sache die wir nicht kapieren alles klein geschrieben ist. \n \n ")
+                        for x in range(2, words):
+                            send = send + message[x] + " "
+                        bot.sende_nachricht(send, int(message[1]))
+                        bot.sende_nachricht("Nachricht verschickt.", chatid)
+                    except TypeError:
+                        bot.sende_nachricht("Etwas stimmt mit der ID nicht", chatid)
+                    except:
+                        bot.sende_nachricht("Ups, hast du die Nachricht so verschickt? \n /send <id> <nachricht>", chatid)
+                else:
+                    alarm("Nutzen von /send ohne Admin")
