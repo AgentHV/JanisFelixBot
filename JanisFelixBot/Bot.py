@@ -8,7 +8,7 @@ blacklist = open("blacklist.txt")
 for x in range(0,len(admins)) :
     admins[x] = admins[x].rstrip()
 print(admins)
-helptext = open("help.botmsg").read()
+helptext = open("messages/help.txt").read()
 
 def save():
     file = open("admins.txt", "w")
