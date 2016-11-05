@@ -1,6 +1,6 @@
 import time
 from chatter.telegramBot import TelegramBot
-bot=TelegramBot("270793864:AAHQIQ5sliwQLbz_31ji1lPZSdcG5vXHw4o")
+bot=TelegramBot("Da dein Key einfügen")
 bot.gehe_online()
 otherbots = open("otherbots.txt").readlines()
 admins = open("admins.txt").readlines()
