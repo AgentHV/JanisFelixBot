@@ -2,8 +2,8 @@
 
 ### Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
-janisfelixbot: telegram.me/janis_felix_bot
-beta: telegram.me/JanisFelixBetaBot
+janisfelixbot: https://telegram.me/janis_felix_bot
+beta: https://telegram.me/JanisFelixBetaBot
 
 Um den Bot zu nutzen musst du die vereinfachte Bot-API installieren: https://github.com/tnstrssnr/telegram-chatter und den Anweisungen in admins.txt folgen.
 
