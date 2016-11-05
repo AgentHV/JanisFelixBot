@@ -1,0 +1,6 @@
+{
+  "name": "Janisfelixbot",
+  "tagline": "",
+  "body": "# JanisFelixBot\r\n\r\n### Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.\r\n\r\njanisfelixbot: https://telegram.me/janis_felix_bot\r\nbeta: https://telegram.me/JanisFelixBetaBot\r\n\r\nUm den Bot zu nutzen musst du die vereinfachte Bot-API installieren: https://github.com/tnstrssnr/telegram-chatter und den Anweisungen in admins.txt folgen.\r\n\r\nBitte beachtet: Die Bots sind noch nicht 24/7 online, obwohl wir es versuchen und das \"Original\" hat überhaupt keine Funktion, da der Bot noch in Entwicklung ist.\r\n\r\n## Befehle\r\n\r\nIch kann folgende Befehle:\r\n/start - Zeigt eine kurze Startnachricht\r\n/gruppen - Hier schlage ich dir ein paar Gruppen vor\r\n/gruppevorschlagen - Du hast eine eigene Gruppe oder kennst eine, die es verdient hat in meinen Vorschlägen zu erscheinen? Klick dieses Command an!\r\n/id - Gibt dir deine ID und die des Chats\r\n/help - Zeigt dir diese Nachricht\r\n/group - Sagt dir, in welchen Usergruppen du bist.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
