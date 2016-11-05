@@ -5,3 +5,4 @@ Ich kann folgende Befehle:
 /id - Gibt dir deine ID und die des Chats
 /help - Zeigt dir diese Nachricht
 /group - Sagt dir, in welchen Usergruppen du bist.
+/feedback - Reiche deine Verbesserungsvorschläge ein
