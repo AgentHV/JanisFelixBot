@@ -102,7 +102,7 @@ while (1):
                 else:
                     bot.sende_nachricht("Bitte schicke mir diesen Command so: \n /feedback <Deine Verbesserungsvorschläge> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
 
-                      if (nachricht[0] == "/gruppevorschlagen"):
+            if (nachricht[0] == "/gruppevorschlagen"):
                 if (len(message) > 1):
                     words=len(message)
                     send = "Neuer Gruppenvorschlag von " + uservorname + " ID: " + str(userid) + "\n"
