@@ -4,6 +4,7 @@
 
 janisfelixbot: https://telegram.me/janis_felix_bot
 beta: https://telegram.me/JanisFelixBetaBot
+Webseite: https://JanisFelixBot.tk
 
 Um den Bot zu nutzen musst du die vereinfachte Bot-API installieren: https://github.com/tnstrssnr/telegram-chatter und den Anweisungen in admins.txt folgen.
 
