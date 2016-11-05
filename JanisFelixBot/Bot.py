@@ -92,7 +92,17 @@ while (1):
             if (nachricht[0] == "/grbj"):
                 bot.sende_nachricht("Eine kleine Gruppe, in der man mit dem @blackjackbot spielen kann! Kommt einfach rein: telegram.me/playblackjack", chatid, nachrichtid)
 
-            if (nachricht[0] == "/gruppevorschlagen"):
+            if (nachricht[0] == "/feedback"):
+                if (len(message) > 1):
+                    words=len(message)
+                    send = "Ein feedback von " + uservorname + "(" + str(userid) + ") wurde gesendet. \n"
+                    for x in range(1, words):
+                        send = send + message[x] + " "
+                    bot.sende_nachricht(send, -151573627)
+                else:
+                    bot.sende_nachricht("Bitte schicke mir diesen Command so: \n /feedback <Deine Verbesserungsvorschläge> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
+
+                      if (nachricht[0] == "/gruppevorschlagen"):
                 if (len(message) > 1):
                     words=len(message)
                     send = "Neuer Gruppenvorschlag von " + uservorname + " ID: " + str(userid) + "\n"
