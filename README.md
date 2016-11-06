@@ -1,5 +1,7 @@
 # JanisFelixBot
 
+## RELEASE AM 1.12!
+
 ### Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
 janisfelixbot: https://telegram.me/janis_felix_bot
