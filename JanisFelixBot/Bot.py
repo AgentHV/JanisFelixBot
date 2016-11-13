@@ -1,6 +1,6 @@
 import time
 from chatter.telegramBot import TelegramBot
-bot=TelegramBot("244398565:AAEStN15qrHb8noq-ymt_9Bq9T0buri23bY")
+bot=TelegramBot("token")
 bot.gehe_online()
 otherbots = open("otherbots.txt").readlines()
 admins = open("admins.txt").readlines()
@@ -47,6 +47,16 @@ while (1):
             if (command[0] == "/null"):
                 bot.sende_nachricht("​", chatid)
 
+            if (command[0] == "/echo"):
+                if (len(message) > 1):
+                    words = len(message)
+                    send = "*" + uservorname + " sagt:* \n \n"
+                    for x in range(1, words):
+                        send = send + message[x] + " "
+                    bot.sende_nachricht(send, chatid, markdown=True)
+                else:
+                    bot.sende_nachricht(
+                        "Bitte schicke mir diesen Command so: \n /echo `<Dein Text>` \n Gibt deinen Text aus. *Markdown* wird unterstützt!", chatid, nachrichtid, markdown=True)
             if (command[0] == "/markdown"):
                 bot.sende_nachricht("Es gibt die folgenden Formatierungen: *bold* _italic_ `fixedsys` [Link](www.janisfelixbot.tk)", chatid, nachrichtid, markdown=True)
                 bot.sende_nachricht("Diese sind wie folgt anzuwenden: *bold* _italic_ `fixedsys` [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
@@ -63,7 +73,7 @@ while (1):
                     bot.sende_nachricht("Dein Feedback wurde versendet! Wir werden dich kontaktieren!", chatid)
                 else:
                     bot.sende_nachricht(
-                        "Bitte schicke mir diesen Command so: \n /feedback <Deine Verbesserungsvorschläge, Dein Lob, was au immer> \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
+                        "Bitte schicke mir diesen Command so: \n /feedback `<Deine Verbesserungsvorschläge, Dein Lob, was au immer>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid, markdown=True)
 #Die zu /gruppen gehörenden Commands
 
             if (command[0] == "/gruppen"):
@@ -100,6 +110,7 @@ while (1):
                     with open("blacklist.txt", "a") as file:
                         newline = "\n" + str(answereduserid)
                         file.write(newline)
+
 #Admincommands
             if (command[0] == "/stop"):
                 if (str(userid) in admins):
