@@ -36,7 +36,7 @@ while (1):
             message=nachrichtraw.inhalt.split()
             command=message[0].split("@")
             if (command[0]== "/start"):
-                bot.sende_nachricht("Hallo, ich bin der Janisfelixbot! Programmiert haben mich @flixlix und @sonixier mithilfe der [vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin!", chatid, nachrichtid, markdown=True)
+                bot.sende_nachricht("Hallo, ich bin der *Janisfelixbot*! Programmiert haben mich @flixlix und @sonixier mithilfe der [vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin!", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/id"):
                 send="Chat-ID: "+ str(chatid) + "\n Deine ID: " + str(userid) + "\n Vorname: " + str(uservorname)
@@ -80,11 +80,11 @@ while (1):
                 bot.sende_nachricht("Ich kenne die folgenden Gruppen: \n Android-Hilfe: /granh \n Spamgruppe: /grspam \n Blackjackgruppe: /grbj", chatid, nachrichtid)
 
             if (command[0] == "/granh"):
-                bot.sende_nachricht("Die inoffizielle Gruppe von http://www.android-hilfe.de, die Gruppe in der du über Android diskutieren kannst (und jeden Morgen ein nettes ''Guten Morgen zusammen'' von Mirko kriegst)! \n Rein kommst du mit diesem Link: https://telegram.me/androidhilfe", chatid, nachrichtid)
+                bot.sende_nachricht("Die inoffizielle Gruppe von http://www.android-hilfe.de, die Gruppe in der du über Android diskutieren kannst (und jeden Morgen ein nettes ''Guten Morgen zusammen'' von Mirko kriegst)! \n Rein kommst du mit diesem Link: [Android-Hilfe](https://telegram.me/androidhilfe)", chatid, nachrichtid, markdown=True)
             if (command[0] == "/grspam"):
-                bot.sende_nachricht("Hier kannst du soviel Bots, Sticker und wasauchimmer spammen wie du willst! Komm einfach rein: https://telegram.me/spamshit", chatid, nachrichtid)
+                bot.sende_nachricht("Hier kannst du soviel Bots, Sticker und wasauchimmer spammen wie du willst! Komm einfach rein: [Spamshit](https://telegram.me/spamshit)", chatid, nachrichtid, markdown=True)
             if (command[0] == "/grbj"):
-                bot.sende_nachricht("Eine kleine Gruppe, in der man mit dem @blackjackbot spielen kann! Kommt einfach rein: telegram.me/playblackjack", chatid, nachrichtid)
+                bot.sende_nachricht("Eine kleine Gruppe, in der man mit dem @blackjackbot spielen kann! Kommt einfach rein: [Playblackjack](telegram.me/playblackjack)", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/gruppevorschlagen"):
                 if (len(message) > 1):
@@ -99,11 +99,11 @@ while (1):
 # Alles was mit Usergruppen zu tun hat
             if (command[0] == "/usergroup"):
                 if (str(userid) in admins):
-                    bot.sende_nachricht("Du bist ein globaler Admin!", chatid, nachrichtid)
+                    bot.sende_nachricht("Du bist ein *globaler Admin*!", chatid, nachrichtid, markdown=True)
                 elif (str(userid) in blacklist):
-                    bot.sende_nachricht("Du bist gebannt!", chatid, nachrichtid)
+                    bot.sende_nachricht("Du bist *gebannt*!", chatid, nachrichtid, markdown=True)
                 else:
-                    bot.sende_nachricht("Du wurdest nicht kategorisiert!", chatid, nachrichtid)
+                    bot.sende_nachricht("Du wurdest *nicht kategorisiert*!", chatid, nachrichtid, markdown=True)
             if (command[0] == "/ban"):
                 if (answered == "yes"):
                     blacklist.append(str(answereduserid))
