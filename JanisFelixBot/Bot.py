@@ -1,6 +1,6 @@
 import time
 from chatter.telegramBot import TelegramBot
-bot=TelegramBot("token")
+bot=TelegramBot("244398565:AAEStN15qrHb8noq-ymt_9Bq9T0buri23bY")
 bot.gehe_online()
 otherbots = open("otherbots.txt").readlines()
 admins = open("admins.txt").readlines()
@@ -39,7 +39,7 @@ while (1):
                 bot.sende_nachricht("Hallo, ich bin der Janisfelixbot! Programmiert haben mich @flixlix und @sonixier mithilfe der [vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin!", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/id"):
-                send="Chat-ID= "+ str(chatid) + "\n Deine ID: " + str(userid)
+                send="Chat-ID: "+ str(chatid) + "\n Deine ID: " + str(userid) + "\n Vorname: " + str(uservorname)
                 if (answered == "yes"):
                     send=send + "\n Die ID der Person, auf die du geantwortet hast:" + str(answereduserid)
                 bot.sende_nachricht(send, chatid, nachrichtid)
@@ -58,8 +58,8 @@ while (1):
                     bot.sende_nachricht(
                         "Bitte schicke mir diesen Command so: \n /echo `<Dein Text>` \n Gibt deinen Text aus. *Markdown* wird unterstützt!", chatid, nachrichtid, markdown=True)
             if (command[0] == "/markdown"):
-                bot.sende_nachricht("Es gibt die folgenden Formatierungen: *bold* _italic_ `fixedsys` [Link](www.janisfelixbot.tk)", chatid, nachrichtid, markdown=True)
-                bot.sende_nachricht("Diese sind wie folgt anzuwenden: *bold* _italic_ `fixedsys` [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
+                bot.sende_nachricht("Es gibt die folgenden Formatierungen: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid, markdown=True)
+                bot.sende_nachricht("Diese sind wie folgt anzuwenden: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
             if (command[0] == "/help"):
                 bot.sende_nachricht(helptext, chatid, nachrichtid, markdown=True)
 
