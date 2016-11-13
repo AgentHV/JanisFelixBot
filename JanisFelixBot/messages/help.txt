@@ -1,8 +1,10 @@
 Ich kann folgende Befehle:
 /start - Zeigt eine kurze Startnachricht
 /gruppen - Hier schlage ich dir ein paar Gruppen vor
-/gruppevorschlagen - Du hast eine eigene Gruppe oder kennst eine, die es verdient hat in meinen Vorschlägen zu erscheinen? Klick dieses Command an!
+/gruppevorschlagen `<Gruppenname und kurze Vorstellung der Gruppe>` - Du hast eine eigene Gruppe oder kennst eine, die es verdient hat in meinen Vorschlägen zu erscheinen? Klick dieses Command an!
 /id - Gibt dir deine ID und die des Chats
 /help - Zeigt dir diese Nachricht
-/group - Sagt dir, in welchen Usergruppen du bist.
-/feedback - Reiche deine Verbesserungsvorschläge ein
+/usergroup - Sagt dir, in welchen Usergruppen du bist.
+/feedback `<Dein Verbesserungsvorschlag>` - Reiche deine Verbesserungsvorschläge ein
+/echo `<Dein Text>` - Gibt deinen Text aus
+/markdown - Zeigt dir wie markdown anzuwenden ist
