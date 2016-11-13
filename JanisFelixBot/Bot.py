@@ -36,7 +36,7 @@ while (1):
             message=nachrichtraw.inhalt.split()
             command=message[0].split("@")
             if (command[0]== "/start"):
-                bot.sende_nachricht("Hallo, ich bin der *Janisfelixbot*! Programmiert haben mich @flixlix und @sonixier mithilfe der [vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin!", chatid, nachrichtid, markdown=True)
+                bot.sende_nachricht("Hallo, ich bin der *Janisfelixbot*! Programmiert haben mich @flixlix und @sonixier mithilfe der [vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin! Schreibe /help für eine Liste der Befehle.", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/id"):
                 send="Chat-ID: "+ str(chatid) + "\n Deine ID: " + str(userid) + "\n Vorname: " + str(uservorname)
