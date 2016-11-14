@@ -7,6 +7,7 @@ admins = open("admins.txt").readlines()
 blacklist = open("blacklist.txt").readlines()
 for x in range(0,len(admins)) :
     admins[x] = admins[x].rstrip()
+print("Der Bot wurde erfolgreich gestartet! Die IDs der Admins sind:")
 print(admins)
 helptext = open("messages/help.txt").read()
 
@@ -62,7 +63,6 @@ while (1):
                 bot.sende_nachricht("Diese sind wie folgt anzuwenden: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
             if (command[0] == "/help"):
                 bot.sende_nachricht(helptext, chatid, nachrichtid, markdown=True)
-
             if (command[0] == "/feedback"):
                 if (len(message) > 1):
                     words = len(message)
@@ -74,7 +74,7 @@ while (1):
                 else:
                     bot.sende_nachricht(
                         "Bitte schicke mir diesen Command so: \n /feedback `<Deine Verbesserungsvorschläge, Dein Lob, was au immer>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid, markdown=True)
-#Die zu /gruppen gehörenden Commands
+# Die zu /gruppen gehörenden Commands
 
             if (command[0] == "/gruppen"):
                 bot.sende_nachricht("Ich kenne die folgenden Gruppen: \n Android-Hilfe: /granh \n Spamgruppe: /grspam \n Blackjackgruppe: /grbj", chatid, nachrichtid)
@@ -105,15 +105,24 @@ while (1):
                 else:
                     bot.sende_nachricht("Du wurdest *nicht kategorisiert*!", chatid, nachrichtid, markdown=True)
             if (command[0] == "/ban"):
+                if (str(answereduserid) in blacklist):
+                    bot.sende_nachricht("Der User ist bereits vom Bot gebannt!", chatid, nachrichtid, markdown=True)
                 if (answered == "yes"):
                     blacklist.append(str(answereduserid))
                     with open("blacklist.txt", "a") as file:
                         newline = "\n" + str(answereduserid)
                         file.write(newline)
-
-#Admincommands
+                        bot.sende_nachricht("User *" + str(answereduserid) + "* wurde vom Bot gebannt!", chatid, nachrichtid, markdown=True)
+# Admincommands
+            if (command[0] == "/addadmin"):
+                if (answered == "yes"):
+                    blacklist.append(str(answereduserid))
+                    with open("admins.txt", "a") as file:
+                        newline = "\n" + str(answereduserid)
+                        file.write(newline)
             if (command[0] == "/stop"):
                 if (str(userid) in admins):
+                    print("Der Bot wurde von Admin " + uservorname + " beendet")
                     bot.sende_nachricht("*Der Bot beendet sich jetzt!*", chatid, nachrichtid, markdown=True)
                     raise
                 else:
@@ -151,3 +160,9 @@ while (1):
                 bot.sende_nachricht("rest in pieces", chatid, nachrichtid)
             if ("janisfelixbot" in message or "JanisFelixBot" in command):
                 bot.sende_nachricht("Das bin ich!", chatid, nachrichtid)
+# Die zu /pictures gehörenden Commands
+            if (command[0] == "/pictures"):
+                bot.sende_nachricht("Es gibt die folgenden Bilder: \n /icon - Das Profilbild des bots", chatid, nachrichtid)
+
+            if (command[0] == "/icon"):
+                bot.sende_bild("pictures/icon.jpg", chatid)
