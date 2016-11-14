@@ -104,26 +104,47 @@ while (1):
                     bot.sende_nachricht("Du bist *gebannt*!", chatid, nachrichtid, markdown=True)
                 else:
                     bot.sende_nachricht("Du wurdest *nicht kategorisiert*!", chatid, nachrichtid, markdown=True)
+# Admincommands
+            if (command[0]== "/admincommands"):
+                if (str(userid) in admins):
+                    bot.sende_nachricht("Admins können folgende Befehle verwenden:\n /stop - Den Bot anhalten \n /ban - Jemanden vom Bot bannen \n /send `<id> <nachricht>` - Eine Nachricht über den Bot versenden \n /addadmin - Jemanden zum globalen Admin machen", chatid, nachrichtid, markdown=True)
+                    break
+                else:
+                    bot.sende_nachricht("Du kannst die Befehle für Admins nicht abrufen, da du kein *globaler Admin* bist!", chatid, nachrichtid, markdown=True)
+
             if (command[0] == "/ban"):
-                if (str(answereduserid) in blacklist):
-                    bot.sende_nachricht("Der User ist bereits vom Bot gebannt!", chatid, nachrichtid, markdown=True)
-                if (answered == "yes"):
+                if (str(answereduserid) in admins):
+                        bot.sende_nachricht("Ein globaler Admin *kann nicht* vom Bot gebannt werden!", chatid, nachrichtid, markdown=True)
+                        break
+                if (str(answereduserid) == '0'):
+                        bot.sende_nachricht("*Ups*, hast du auf denjenigen geantwortet den du bannen willst?", chatid, nachrichtid, markdown=True)
+                        break
+                if (str(answereduserid) not in blacklist):
                     blacklist.append(str(answereduserid))
                     with open("blacklist.txt", "a") as file:
-                        newline = "\n" + str(answereduserid)
-                        file.write(newline)
-                        bot.sende_nachricht("User *" + str(answereduserid) + "* wurde vom Bot gebannt!", chatid, nachrichtid, markdown=True)
-# Admincommands
+                     newline = "\n" + str(answereduserid)
+                     file.write(newline)
+                     bot.sende_nachricht("User *" + str(answereduserid) + "* wurde vom Bot gebannt!", chatid, nachrichtid, markdown=True)
+                     break
+                if (str(answereduserid) in blacklist):
+                    bot.sende_nachricht("Der User ist bereits vom Bot gebannt!", chatid, nachrichtid, markdown=True)
+
             if (command[0] == "/addadmin"):
+                if (str(answereduserid) in admins):
+                    bot.sende_nachricht("User *" + str(answereduserid) + "* ist bereits Admin!", chatid, nachrichtid, markdown=True)
+                    break
                 if (answered == "yes"):
+                    bot.sende_nachricht("User *" + str(answereduserid) + "* wurde als Admin hinzugefügt! Der Bot muss allerdings neugestartet werden!", chatid, nachrichtid, markdown=True)
                     blacklist.append(str(answereduserid))
                     with open("admins.txt", "a") as file:
                         newline = "\n" + str(answereduserid)
                         file.write(newline)
+                else:
+                    bot.sende_nachricht("*Ups*, hast du auf denjenigen geantwortet den du zum globalen Admin machen willst?", chatid, nachrichtid, markdown=True)
             if (command[0] == "/stop"):
                 if (str(userid) in admins):
                     print("Der Bot wurde von Admin " + uservorname + " beendet")
-                    bot.sende_nachricht("*Der Bot beendet sich jetzt!*", chatid, nachrichtid, markdown=True)
+                    bot.sende_nachricht("*Der Bot beendet sich dank " + uservorname + " jetzt!*", chatid, nachrichtid, markdown=True)
                     raise
                 else:
                       alarm("*Bot mit /stop beenden*")
@@ -139,7 +160,7 @@ while (1):
                     except TypeError:
                         bot.sende_nachricht("Etwas stimmt mit der ID nicht.", chatid)
                     except:
-                        bot.sende_nachricht("Ups, hast du die Nachricht so verschickt? \n /send `<id> <nachricht>`", chatid, markdown=True)
+                        bot.sende_nachricht("*Ups*, hast du die Nachricht so verschickt? \n /send `<id> <nachricht>`", chatid, markdown=True)
                 else:
                     alarm("*Nutzen von /send ohne Admin*")
 # Spaßantworten
