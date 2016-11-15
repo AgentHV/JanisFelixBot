@@ -75,18 +75,18 @@ while (1):
                 if randomzahl == 1:
                     if (len(message) > 1):
                         words = len(message)
-                        send = "*" + str(uservorname) + "* gibt *"
+                        send = " " + str(uservorname) + "gibt"
                         for x in range(1, words):
-                            send = send + message[x] + "* einen Keks."
-                            bot.sende_nachricht(send, chatid, markdown=True)
+                            send = send + message[x] + " einen Keks."
+                            bot.sende_nachricht(send, chatid)
                             break
                 if randomzahl == 0:
                     if (len(message) > 1):
                         words = len(message)
-                        send = "*" + str(uservorname) + "* ❤️ *"
+                        send = " " + str(uservorname) + "❤️ "
                         for x in range(1, words):
-                            send = send + message[x] + "*!"
-                            bot.sende_nachricht(send, chatid, markdown=True)
+                            send = send + message[x] + "!"
+                            bot.sende_nachricht(send, chatid)
                             break
             if (command[0] == "/help"):
                 bot.sende_nachricht(helptext, chatid, nachrichtid, markdown=True)
@@ -101,7 +101,7 @@ while (1):
                 else:
                     bot.sende_nachricht(
                         "Bitte schicke mir diesen Command so: \n /feedback `<Deine VerbesserungsvorschlÃ¤ge, Dein Lob, was au immer>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid, markdown=True)
-# Die zu /gruppen gehÃ¶renden Commands
+# Die zu /gruppen gehörenden Commands
 
             if (command[0] == "/gruppen"):
                 bot.sende_nachricht("Ich kenne die folgenden Gruppen: \n Android-Hilfe: /granh \n Spamgruppe: /grspam \n Blackjackgruppe: /grbj", chatid, nachrichtid)
