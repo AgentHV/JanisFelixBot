@@ -1,3 +1,4 @@
+import random
 import time
 lastwait = 0
 from chatter.telegramBot import TelegramBot
@@ -42,7 +43,7 @@ while (1):
             message=nachrichtraw.inhalt.split()
             command=message[0].split("@")
             if (command[0]== "/start"):
-                bot.sende_nachricht("Hallo, ich bin der *Janisfelixbot*! Programmiert haben mich @flixlix und @sonixier mithilfe von [Felix's Fork der vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin! Schreibe /help fÃ¼r eine Liste der Befehle.", chatid, nachrichtid, markdown=True)
+                bot.sende_nachricht("Hallo, ich bin der *Janisfelixbot*! Programmiert haben mich @flixlix und @sonixier mithilfe von [Felix's Fork der vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin! Schreibe /help für eine Liste der Befehle.", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/id"):
                 send="Chat-ID: "+ str(chatid) + "\n Deine ID: " + str(userid) + "\n Vorname: " + str(uservorname)
@@ -62,12 +63,31 @@ while (1):
                     bot.sende_nachricht(send, chatid, markdown=True)
                 else:
                     bot.sende_nachricht(
-                        "Bitte schicke mir diesen Command so: \n /echo `<Dein Text>` \n Gibt deinen Text aus. *Markdown* wird unterstÃ¼tzt!", chatid, nachrichtid, markdown=True)
+                        "Bitte schicke mir diesen Command so: \n /echo `<Dein Text>` \n Gibt deinen Text aus. *Markdown* wird unterstützt!", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/markdown"):
                 bot.sende_nachricht("Es gibt die folgenden Formatierungen: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid, markdown=True)
                 bot.sende_nachricht("Diese sind wie folgt anzuwenden: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
 
+            if (command[0] == "/random"):
+                from random import randint
+                randomzahl = randint(0, 1)
+                if randomzahl == 1:
+                    if (len(message) > 1):
+                        words = len(message)
+                        send = "*" + str(uservorname) + "* gibt *"
+                        for x in range(1, words):
+                            send = send + message[x] + "* einen Keks."
+                            bot.sende_nachricht(send, chatid, markdown=True)
+                            break
+                if randomzahl == 0:
+                    if (len(message) > 1):
+                        words = len(message)
+                        send = "*" + str(uservorname) + "* ❤️ *"
+                        for x in range(1, words):
+                            send = send + message[x] + "*!"
+                            bot.sende_nachricht(send, chatid, markdown=True)
+                            break
             if (command[0] == "/help"):
                 bot.sende_nachricht(helptext, chatid, nachrichtid, markdown=True)
             if (command[0] == "/feedback"):
@@ -87,7 +107,7 @@ while (1):
                 bot.sende_nachricht("Ich kenne die folgenden Gruppen: \n Android-Hilfe: /granh \n Spamgruppe: /grspam \n Blackjackgruppe: /grbj", chatid, nachrichtid)
 
             if (command[0] == "/granh"):
-                bot.sende_nachricht("Die inoffizielle Gruppe von http://www.android-hilfe.de, die Gruppe in der du Ã¼ber Android diskutieren kannst (und jeden Morgen ein nettes ''Guten Morgen zusammen'' von Mirko kriegst)! \n Rein kommst du mit diesem Link: [Android-Hilfe](https://telegram.me/androidhilfe)", chatid, nachrichtid, markdown=True)
+                bot.sende_nachricht("Die inoffizielle Gruppe von http://www.android-hilfe.de, die Gruppe in der du über Android diskutieren kannst (und jeden Morgen ein nettes ''Guten Morgen zusammen'' von Mirko kriegst)! \n Rein kommst du mit diesem Link: [Android-Hilfe](https://telegram.me/androidhilfe)", chatid, nachrichtid, markdown=True)
             if (command[0] == "/grspam"):
                 bot.sende_nachricht("Hier kannst du soviel Bots, Sticker und wasauchimmer spammen wie du willst! Komm einfach rein: [Spamshit](https://telegram.me/spamshit)", chatid, nachrichtid, markdown=True)
             if (command[0] == "/grbj"):
@@ -114,10 +134,10 @@ while (1):
 # Admincommands
             if (command[0]== "/admincommands"):
                 if (str(userid) in admins):
-                    bot.sende_nachricht("Admins kÃ¶nnen folgende Befehle verwenden:\n /stop - Den Bot anhalten \n /ban - Jemanden vom Bot bannen \n /send `<id> <nachricht>` - Eine Nachricht Ã¼ber den Bot versenden \n /addadmin - Jemanden zum globalen Admin machen", chatid, nachrichtid, markdown=True)
+                    bot.sende_nachricht("Admins können folgende Befehle verwenden:\n /stop - Den Bot anhalten \n /ban - Jemanden vom Bot bannen \n /send `<id> <nachricht>` - Eine Nachricht über den Bot versenden \n /addadmin - Jemanden zum globalen Admin machen", chatid, nachrichtid, markdown=True)
                     break
                 else:
-                    bot.sende_nachricht("Du kannst die Befehle fÃ¼r Admins nicht abrufen, da du kein *globaler Admin* bist!", chatid, nachrichtid, markdown=True)
+                    bot.sende_nachricht("Du kannst die Befehle für Admins nicht abrufen, da du kein *globaler Admin* bist!", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/ban"):
                 if (str(answereduserid) in admins):
@@ -141,7 +161,7 @@ while (1):
                     bot.sende_nachricht("User *" + str(answereduserid) + "* ist bereits Admin!", chatid, nachrichtid, markdown=True)
                     break
                 if (answered == "yes"):
-                    bot.sende_nachricht("User *" + str(answereduserid) + "* wurde als Admin hinzugefÃ¼gt! Der Bot muss allerdings neugestartet werden!", chatid, nachrichtid, markdown=True)
+                    bot.sende_nachricht("User *" + str(answereduserid) + "* wurde als Admin hinzugefügt! Der Bot muss allerdings neugestartet werden!", chatid, nachrichtid, markdown=True)
                     admins.append(str(answereduserid))
                     with open("admins.txt", "a") as file:
                         newline = "\n" + str(answereduserid)
@@ -171,13 +191,13 @@ while (1):
                 else:
                     alarm("*Nutzen von /send ohne Admin*")
 
-# Die zu /pictures gehÃ¶renden Commands
+# Die zu /pictures gehörenden Commands
             if (command[0] == "/pictures"):
                 bot.sende_nachricht("Es gibt die folgenden Bilder: \n /icon - Das Profilbild des bots", chatid, nachrichtid)
 
             if (command[0] == "/icon"):
                 bot.sende_bild("pictures/icon.jpg", chatid)
-# SpaÃŸantworten
+# Spaßantworten
             command = command[0].lower()
             x = 0
             for dat in message:
