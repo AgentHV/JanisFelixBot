@@ -1,0 +1,12 @@
+start - Einen kleine Willkomensnachricht
+id - Gibt dir die IDs
+null - Schickt eine leere Nachricht
+echo - Wiederholt, was du sagst
+markdown - Welche Markdownformatierungen gibt es?
+random - Gibt lustigen Satz aus
+feedback - Gib den Machern Feedback
+gruppen - Schlägt dir Gruppen vor
+usergroup - Zeigt dir, in welcher Systemgruppe du bist
+pictures - Kann dir ein paar Bilder geben
+help - Erklärt dir die Commands genauer
+admincommands - Nur für Admins
