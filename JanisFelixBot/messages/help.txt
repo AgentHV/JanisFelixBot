@@ -8,4 +8,5 @@ Ich kann folgende Befehle:
 /feedback `<Dein Verbesserungsvorschlag>` - Reiche deine Verbesserungsvorschläge ein
 /echo `<Dein Text>` - Gibt deinen Text aus
 /markdown - Zeigt dir wie markdown anzuwenden ist
-/pictures - Gibt ein Bild aus.
+/pictures - Gibt ein Bild aus
+/random `<Dein Objekt/Person...>` - Gibt einen lustigen Satz aus
