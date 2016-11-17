@@ -10,3 +10,4 @@ usergroup - Zeigt dir, in welcher Systemgruppe du bist
 pictures - Kann dir ein paar Bilder geben
 help - Erklärt dir die Commands genauer
 admincommands - Nur für Admins
+time - Sendet Datum und Uhrzeit
