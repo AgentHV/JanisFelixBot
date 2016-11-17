@@ -10,3 +10,4 @@ Ich kann folgende Befehle:
 /markdown - Zeigt dir wie markdown anzuwenden ist
 /pictures - Gibt ein Bild aus
 /random `<Dein Objekt/Person...>` - Gibt einen lustigen Satz aus
+/time - Gibt Datum und Uhrzeit aus
