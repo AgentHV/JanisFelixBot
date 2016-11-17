@@ -1,6 +1,6 @@
+# -*- coding: iso-8859-1 -*-
 import random
 import time
-lastwait = 0
 from chatter.telegramBot import TelegramBot
 bot=TelegramBot("244398565:AAEStN15qrHb8noq-ymt_9Bq9T0buri23bY")
 bot.gehe_online()
@@ -22,11 +22,6 @@ def alarm(verstoss):
 
 
 while (1):
-    minutes = time.localtime()[4]
-    if (minutes % 5 == 0 and lastwait != minutes):
-        print("Gute Nacht")
-        time.sleep(10)
-        lastwait = minutes
     nachrichten = bot.hole_updates()
     for nachrichtraw in nachrichten:
         chatid=nachrichtraw.chat.id
@@ -52,7 +47,7 @@ while (1):
                 bot.sende_nachricht(send, chatid, nachrichtid)
 
             if (command[0] == "/null"):
-                bot.sende_nachricht("â€‹", chatid)
+                bot.sende_nachricht("", chatid)
 
             if (command[0] == "/echo"):
                 if (len(message) > 1):
@@ -69,13 +64,18 @@ while (1):
                 bot.sende_nachricht("Es gibt die folgenden Formatierungen: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid, markdown=True)
                 bot.sende_nachricht("Diese sind wie folgt anzuwenden: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
 
+            if (command[0] == "/time"):
+                datum = str(time.strftime("%d.%m.%Y"))
+                zeit = str(time.strftime(" %H:%M:%S"))
+                bot.sende_nachricht("Datum: " + str(datum) + "\nUhrzeit:" + str(zeit), chatid, nachrichtid)
+
             if (command[0] == "/random"):
                 from random import randint
                 randomzahl = randint(0, 1)
                 if randomzahl == 1:
                     if (len(message) > 1):
                         words = len(message)
-                        send = " " + str(uservorname) + "gibt"
+                        send = " " + str(uservorname) + " gibt "
                         for x in range(1, words):
                             send = send + message[x] + " einen Keks."
                             bot.sende_nachricht(send, chatid)
@@ -83,7 +83,7 @@ while (1):
                 if randomzahl == 0:
                     if (len(message) > 1):
                         words = len(message)
-                        send = " " + str(uservorname) + "❤️ "
+                        send = " " + str(uservorname) + "?? "
                         for x in range(1, words):
                             send = send + message[x] + "!"
                             bot.sende_nachricht(send, chatid)
@@ -141,7 +141,7 @@ while (1):
 
             if (command[0] == "/ban"):
                 if (str(answereduserid) in admins):
-                        bot.sende_nachricht("Ein globaler Admin *kann nicht* vom Bot gebannt werden!", chatid, nachrichtid, markdown=True)
+                        bot.sende_nachricht("Ein globaler Admin kann nicht vom Bot gebannt werden!", chatid, nachrichtid, markdown=True)
                         break
                 if (str(answereduserid) == '0'):
                         bot.sende_nachricht("*Ups*, hast du auf denjenigen geantwortet den du bannen willst?", chatid, nachrichtid, markdown=True)
@@ -168,13 +168,15 @@ while (1):
                         file.write(newline)
                 else:
                     bot.sende_nachricht("*Ups*, hast du auf denjenigen geantwortet den du zum globalen Admin machen willst?", chatid, nachrichtid, markdown=True)
-            if (command[0] == "/stop"):
+
+            if (command[0] == "/reload"):
                 if (str(userid) in admins):
-                    print("Der Bot wurde von Admin " + uservorname + " beendet")
-                    bot.sende_nachricht("*Der Bot beendet sich dank " + uservorname + " jetzt!*", chatid, nachrichtid, markdown=True)
+                    print("Der Bot wurde von Admin " + uservorname + " neugestartet")
+                    bot.sende_nachricht("Der Bot wird jetzt neugestartet...", chatid, nachrichtid, markdown=True)
                     raise BotStop(uservorname)
                 else:
-                      alarm("*Bot mit /stop beenden*")
+                      alarm("*Bot mit /reload neustarten*")
+
             if (command[0] == "/send"):
                 if (str(userid) in admins):
                     try:
@@ -204,7 +206,7 @@ while (1):
                 message[x] = dat.lower()
                 x = x + 1
             if ("tobs" in message or "tobs" in command):
-                bot.sende_nachricht("Tobs... Tobs ist toll! \nSo *richtig richtig* toll! â¤ï¸", chatid, nachrichtid, markdown=True)
+                bot.sende_nachricht("Tobs... Tobs ist toll! \nSo *richtig richtig* toll! ??", chatid, nachrichtid, markdown=True)
             if ("brawlbot" in message or "brawlbot" in command):
                 bot.sende_nachricht("*IGITT!* Ich hasse _Lua_!", chatid, nachrichtid, markdown=True)
             if ("ayy" in message or "ayy" in command):
