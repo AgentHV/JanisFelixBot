@@ -9,17 +9,13 @@ admins = open("admins.txt").readlines()
 blacklist = open("blacklist.txt").readlines()
 for x in range(0,len(admins)) :
     admins[x] = admins[x].rstrip()
-print("Der Bot wurde erfolgreich gestartet! Die IDs der Admins sind:")
-print(admins)
+print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "] Der Bot wurde erfolgreich gestartet! Die IDs der Admins sind: " + str(admins)))
 helptext = open("messages/help.txt").read()
-
-
 def alarm(verstoss):
     send = ("Achtung! Der User " + str(uservorname) + " (" + str(userid) + ") hat versucht die folgende Sache zu machen: \n " + str(verstoss))
     bot.sende_nachricht(send, -151573627, markdown=True)
-    print(send)
+    print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "]" + send))
     bot.sende_nachricht("Du bist kein Admin, Anzeige ist raus!", chatid, nachrichtid)
-
 
 while (1):
     nachrichten = bot.hole_updates()
@@ -70,52 +66,69 @@ while (1):
                 bot.sende_nachricht("Datum: " + str(datum) + "\nUhrzeit:" + str(zeit), chatid, nachrichtid)
 
             if (command[0] == "/random"):
-                from random import randint
-                randomzahl = randint(0, 4)
-                if randomzahl == 1:
-                    if (len(message) > 1):
-                        words = len(message)
-                        send = " " + str(uservorname) + " gibt "
-                        for x in range(1, words):
-                            send = send + message[x] + " einen Keks."
-                            bot.sende_nachricht(send, chatid)
-                            break
-                if randomzahl == 0:
-                    if (len(message) > 1):
-                        words = len(message)
-                        send = " " + str(uservorname) + "?? "
-                        for x in range(1, words):
-                            send = send + message[x] + "!"
-                            bot.sende_nachricht(send, chatid)
-                            break
-                if randomzahl == 2:
-                    if (len(message) > 1):
-                        words = len(message)
-                        send = " "
-                        for x in range(1, words):
-                            send = send + message[x] + " liebt Lua."
-                            bot.sende_nachricht(send, chatid)
-                            break
-                if randomzahl == 3:
-                    if (len(message) > 1):
-                        words = len(message)
-                        send = " "
-                        for x in range(1, words):
-                            send = send + str(uservorname) + " küsst "
-                            send = send + message[x] + " leidenschaftlich."
-                            bot.sende_nachricht(send, chatid)
-                            break
-                if randomzahl == 4:
-                    if (len(message) > 1):
-                        words = len(message)
-                        send = " "
-                        for x in range(1, words):
-                            send = send + message[x] + " mag TouchWiz. "
-                            send = send + str(uservorname) + " hingegen versucht ihm CyanogenMod aufzuquatschen."
-                            bot.sende_nachricht(send, chatid)
-                            break
+                if (len(message) > 1):
+                    from random import randint
+                    randomzahl = randint(0, 6)
+                    if randomzahl == 0:
+                            words = len(message)
+                            send = " " + str(uservorname) + " gibt "
+                            for x in range(1, words):
+                                send = send + message[x] + " einen Keks."
+                                bot.sende_nachricht(send, chatid)
+                                break
+                    if randomzahl == 1:
+                            words = len(message)
+                            send = " " + str(uservorname) + "?? "
+                            for x in range(1, words):
+                                send = send + message[x] + "!"
+                                bot.sende_nachricht(send, chatid)
+                                break
+                    if randomzahl == 2:
+                            words = len(message)
+                            send = " "
+                            for x in range(1, words):
+                                send = send + message[x] + " liebt Lua."
+                                bot.sende_nachricht(send, chatid)
+                                break
+                    if randomzahl == 3:
+                            words = len(message)
+                            send = " "
+                            for x in range(1, words):
+                                send = send + str(uservorname) + " küsst "
+                                send = send + message[x] + " leidenschaftlich."
+                                bot.sende_nachricht(send, chatid)
+                                break
+                    if randomzahl == 4:
+                            words = len(message)
+                            send = " "
+                            for x in range(1, words):
+                                send = send + message[x] + " mag TouchWiz. "
+                                send = send + str(uservorname) + " hingegen versucht ihm CyanogenMod aufzuquatschen."
+                                bot.sende_nachricht(send, chatid)
+                                break
+                    if randomzahl == 5:
+                            words = len(message)
+                            send = " "
+                            for x in range(1, words):
+                                send = send + message[x] + " ist ein typischer Fall von einem gerissenen Kondom."
+                                bot.sende_nachricht(send, chatid)
+                                break
+                    if randomzahl == 6:
+                            words = len(message)
+                            send = "Sag "
+                            for x in range(1, words):
+                                send = send + message[x] + ", er soll sich verstecken. Die Müllabfuhr kommt!"
+                                bot.sende_nachricht(send, chatid)
+                                break
+                else:
+                    bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: /random `<Dein Objekt/Person...>`", chatid, markdown=True)
             if (command[0] == "/help"):
-                bot.sende_nachricht(helptext, chatid, nachrichtid, markdown=True)
+                if str(userid) in admins:
+                   adminhelp = helptext + "\n/admincommands - Sende commands für Admins"
+                   bot.sende_nachricht(adminhelp, chatid, nachrichtid, markdown=True)
+                   break
+                else:
+                    bot.sende_nachricht(helptext, chatid, nachrichtid, markdown=True)
             if (command[0] == "/feedback"):
                 if (len(message) > 1):
                     words = len(message)
@@ -160,45 +173,50 @@ while (1):
 # Admincommands
             if (command[0]== "/admincommands"):
                 if (str(userid) in admins):
-                    bot.sende_nachricht("Admins kï¿½nnen folgende Befehle verwenden:\n /stop - Den Bot anhalten \n /ban - Jemanden vom Bot bannen \n /send `<id> <nachricht>` - Eine Nachricht ï¿½ber den Bot versenden \n /addadmin - Jemanden zum globalen Admin machen", chatid, nachrichtid, markdown=True)
+                    bot.sende_nachricht("Admins können folgende Befehle verwenden:\n /reload - Den Bot neustarten \n /ban - Jemanden vom Bot bannen \n /send `<id> <nachricht>` - Eine Nachricht über den Bot versenden \n /addadmin - Jemanden zum globalen Admin machen", chatid, nachrichtid, markdown=True)
                     break
                 else:
-                    bot.sende_nachricht("Du kannst die Befehle fï¿½r Admins nicht abrufen, da du kein *globaler Admin* bist!", chatid, nachrichtid, markdown=True)
+                    bot.sende_nachricht("Du kannst die Befehle für Admins nicht abrufen, da du kein *globaler Admin* bist!", chatid, nachrichtid, markdown=True)
 
             if (command[0] == "/ban"):
-                if (str(answereduserid) in admins):
+                if (str(userid) in admins):
+                    if (str(answereduserid) in admins):
                         bot.sende_nachricht("Ein globaler Admin kann nicht vom Bot gebannt werden!", chatid, nachrichtid, markdown=True)
                         break
-                if (str(answereduserid) == '0'):
+                    if (str(answereduserid) == '0'):
                         bot.sende_nachricht("*Ups*, hast du auf denjenigen geantwortet den du bannen willst?", chatid, nachrichtid, markdown=True)
                         break
-                if (str(answereduserid) not in blacklist):
-                    blacklist.append(str(answereduserid))
-                    with open("blacklist.txt", "a") as file:
-                     newline = "\n" + str(answereduserid)
-                     file.write(newline)
-                     bot.sende_nachricht("User *" + str(answereduserid) + "* wurde vom Bot gebannt!", chatid, nachrichtid, markdown=True)
-                     break
-                if (str(answereduserid) in blacklist):
-                    bot.sende_nachricht("Der User ist bereits vom Bot gebannt!", chatid, nachrichtid, markdown=True)
+                    if (str(answereduserid) not in blacklist):
+                        blacklist.append(str(answereduserid))
+                        with open("blacklist.txt", "a") as file:
+                            newline = "\n" + str(answereduserid)
+                            file.write(newline)
+                            bot.sende_nachricht("User *" + str(answereduserid) + "* wurde vom Bot gebannt!", chatid, nachrichtid, markdown=True)
+                        break
+                    if (str(answereduserid) in blacklist):
+                        bot.sende_nachricht("Der User ist bereits vom Bot gebannt!", chatid, nachrichtid, markdown=True)
+                else:
+                    alarm("*Jemanden mit /ban vom Bot bannen*")
 
             if (command[0] == "/addadmin"):
-                if (str(answereduserid) in admins):
-                    bot.sende_nachricht("User *" + str(answereduserid) + "* ist bereits Admin!", chatid, nachrichtid, markdown=True)
-                    break
-                if (answered == "yes"):
-                    bot.sende_nachricht("User *" + str(answereduserid) + "* wurde als Admin hinzugefügt!", chatid, nachrichtid, markdown=True)
-                    admins.append(str(answereduserid))
-                    with open("admins.txt", "a") as file:
-                        newline = "\n" + str(answereduserid)
-                        file.write(newline)
+                if (str(userid) in admins):
+                    if (str(answereduserid) in admins):
+                        bot.sende_nachricht("User *" + str(answereduserid) + "* ist bereits Admin!", chatid, nachrichtid, markdown=True)
                         break
+                    if (answered == "yes"):
+                        bot.sende_nachricht("User *" + str(answereduserid) + "* wurde als Admin hinzugefügt!", chatid, nachrichtid, markdown=True)
+                        admins.append(str(answereduserid))
+                        with open("admins.txt", "a") as file:
+                            newline = "\n" + str(answereduserid)
+                            file.write(newline)
+                    else:
+                        bot.sende_nachricht("*Ups*, hast du auf denjenigen geantwortet den du zum globalen Admin machen willst?", chatid, nachrichtid, markdown=True)
                 else:
-                    bot.sende_nachricht("*Ups*, hast du auf denjenigen geantwortet den du zum globalen Admin machen willst?", chatid, nachrichtid, markdown=True)
+                     alarm("*Jemanden mit /addadmin zum globalen Admin machen*")
 
             if (command[0] == "/reload"):
                 if (str(userid) in admins):
-                    print("Der Bot wurde von Admin " + uservorname + " neugestartet")
+                    print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "] Der Bot wurde von Admin " + uservorname + " neugestartet"))
                     bot.sende_nachricht("Der Bot wird jetzt neugestartet...", chatid, nachrichtid, markdown=True)
                     raise BotStop(uservorname)
                 else:
