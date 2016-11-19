@@ -1,6 +1,6 @@
 # JanisFelixBot
 
-## RELEASE AM 1.12!
+## RELEASE AM 1.12! // BOT LÄUFT STABIL
 
 ### Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
@@ -10,7 +10,7 @@ Webseite: https://JanisFelixBot.tk
 
 Um den Bot zu nutzen musst du die vereinfachte Bot-API installieren, die Felix bearbeitet hat: https://github.com/Flixlix/telegram-chatter und den Anweisungen in admins.txt folgen.
 
-Bitte beachtet: Die Bots sind noch nicht 24/7 online, obwohl wir es versuchen und das "Original" hat überhaupt keine Funktion, da der Bot noch in Entwicklung ist. Er wird am 1.12.2016 Released. 
+Aktueller Status: Die Entwicklung schreitet gerade ziemlich voran, der Bot läuft jetzt im Uberspace. Er wird 24/7 online sein und selbst wenn er abstürtzt wieder automatisch neugestartet. Release am 1.12.2016!
 
 # Installation
 ## Windows
