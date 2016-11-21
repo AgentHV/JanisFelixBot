@@ -14,7 +14,7 @@ Aktueller Status: Die Entwicklung schreitet gerade ziemlich voran, der Bot läuf
 
 # Installation
 
-Folgende Python module werden benötigt:
+Folgende Python module werden benötigt:     
 -pyqrcode     
 -cleverbot
 -image     
