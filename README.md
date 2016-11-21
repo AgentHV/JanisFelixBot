@@ -13,6 +13,15 @@ Um den Bot zu nutzen musst du die vereinfachte Bot-API installieren, die Felix b
 Aktueller Status: Die Entwicklung schreitet gerade ziemlich voran, der Bot läuft jetzt im Uberspace. Er wird 24/7 online sein und selbst wenn er abstürtzt wieder automatisch neugestartet. Release am 1.12.2016!
 
 # Installation
+
+Folgende Python module werden benötigt:
+-pyqrcode     
+-cleverbot
+-image     
+-pypng     
+-requests     
+
+Diese können mit  ``pip3 install deinmodul`` installiert werden.
 ## Windows
 
 Vorraussetzung:   
