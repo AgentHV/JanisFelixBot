@@ -2,11 +2,11 @@
 
 ## VIELE NEUE FUNKTIONEN: MEHR AUF JANISFELIXBOT.TK!
 
-### Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
+Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
-janisfelixbot: https://telegram.me/janis_felix_bot
-beta: https://telegram.me/JanisFelixBetaBot
-Webseite: https://JanisFelixBot.tk
+janisfelixbot: https://telegram.me/janis_felix_bot   
+beta: https://telegram.me/JanisFelixBetaBot   
+Webseite: https://JanisFelixBot.tk   
 
 
 # Installation
