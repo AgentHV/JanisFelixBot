@@ -1,16 +1,22 @@
 # JanisFelixBot - von Janis und Felix
+from chatter.telegramBot import TelegramBot
+#----------------------------WICHTIG-------------------------------
+# Bitte ersetze folgende Werte durch deine:
+bot = TelegramBot("Dein Bot token")
+api_key = "Dein API_key für die Goo.gl API"
+admingroup = Deine ID der AdminGruppe
+#----------------------------WICHTIG-------------------------------
 # Die benötigten module:
 import time
 import os
 import pyqrcode
 import regex
+import goslate
 from os.path import isfile
 from telegraph import Telegraph
-from chatter.telegramBot import TelegramBot
 from cleverbot import Cleverbot
 from pyshorteners import Shortener
 from random import randint
-bot=TelegramBot("telegram api key einfügen")
 bot.gehe_online()
 nachrichten = bot.hole_updates()
 telegraph = Telegraph()
@@ -30,7 +36,7 @@ blacklist = open("blacklist.txt").readlines()
 helptext = open("messages/help.txt").read()
 def alarm(verstoss):
     send = ("Achtung! Der User " + str(uservorname) + " (" + str(userid) + ") hat versucht die folgende Sache zu machen: \n " + str(verstoss))
-    bot.sende_nachricht(send, -151573627)
+    bot.sende_nachricht(send, admingroup)
     print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "]" + send))
     bot.sende_nachricht("Du bist kein Admin, Anzeige ist raus!", chatid, nachrichtid)
 def setbits(bits, userid):
@@ -94,7 +100,7 @@ while (1):
                 if (command[0] == "/id"):
                     send="Chat-ID: "+ str(chatid) + "\n Deine ID: " + str(userid) + "\n Vorname: " + str(uservorname)
                     if (answered == True):
-                        send=send + "\n Die ID der Person, auf die du geantwortet hast:" + str(answereduserid)
+                        send=send + "\n Die ID der Person, auf die du geantwortet hast: " + str(answereduserid)
                     bot.sende_nachricht(send, chatid, nachrichtid)
 
                 if ("janisfelixbot" in message or "JanisFelixBot" in command):
@@ -116,7 +122,7 @@ while (1):
                          down = message[x] + " ist offline oder dies ist keine Webadresse."
                          bot.sende_nachricht(down, chatid, nachrichtid)
                   else:
-                      bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: /isup `<Dein Link>` ", chatid, nachrichtid)
+                      bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: */isup* `<Dein Link>` ", chatid, nachrichtid)
                 if (command[0] == "/null"):
                     bot.sende_nachricht(" ", chatid)
                 if (command[0] == "/echo"):
@@ -128,7 +134,7 @@ while (1):
                         bot.sende_nachricht(send, chatid)
                     else:
                         bot.sende_nachricht(
-                            "Bitte schicke mir diesen Command so: \n /echo `<Dein Text>` \n Gibt deinen Text aus. *Markdown* wird unterstützt!", chatid, nachrichtid)
+                            "Bitte schicke mir diesen Command so: \n */echo* `<Dein Text>` \n Gibt deinen Text aus. *Markdown* wird unterstützt!", chatid, nachrichtid)
 
                 if (command[0] == "/markdown"):
                     bot.sende_nachricht("Es gibt die folgenden Formatierungen: \n//*bold//*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
@@ -145,13 +151,12 @@ while (1):
                      for x in range(1, words):
                        try:
                           url = message[x]
-                          api_key = "goo.gl api key einfügen"
                           shortener = Shortener("Google", api_key=api_key)
                           bot.sende_nachricht("Der gekürtzte Link lautet: {}".format(shortener.short(url)), chatid, nachrichtid)
                        except ValueError:
                           bot.sende_nachricht("*Ups*, `" + url + "` ist keine Internetadresse. Bitte beachte das http:// bzw. https:// im Link stehen muss.", chatid, nachrichtid)
                   else:
-                      bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: /short `<Dein Link>`", chatid, nachrichtid)
+                      bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: */short* `<Dein Link>`", chatid, nachrichtid)
                 if (command[0] == "/qrgen"):
                     if (len(message) > 1):
                         words = len(message)
@@ -170,8 +175,10 @@ while (1):
                         telegraph.create_account(short_name=uservorname)
                         response = telegraph.create_page(uservorname + " (" + str(userid) + ") Telegraph",
                                                          html_content='<p>' + str(newtgmsg) + '</p>')
-                    telegraphmsg = "http://telegra.ph/{}".format(response["path"])
-                    bot.sende_nachricht(telegraphmsg, chatid)
+                        telegraphmsg = "http://telegra.ph/{}".format(response["path"])
+                        bot.sende_nachricht(telegraphmsg, chatid, nachrichtid)
+                    else:
+                        bot.sende_nachricht("Ups, bitte schicke mir diesen command so: */telegraph* `<Dein Text>`", chatid, nachrichtid, markdown=True)
                 if (command[0] == "/random"):
                     if (len(message) > 1):
                         randomzahl = randint(0, 6)
@@ -200,7 +207,7 @@ while (1):
                                 words = len(message)
                                 send = " "
                                 for x in range(1, words):
-                                    send = send + str(uservorname) + " küsst "
+                                    send = send + str(uservorname) + " kcsst "
                                     send = send + message[x] + " leidenschaftlich."
                                     bot.sende_nachricht(send, chatid)
                                     break
@@ -227,7 +234,7 @@ while (1):
                                     bot.sende_nachricht(send, chatid)
                                     break
                     else:
-                        bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: /random `<Dein Objekt/Person...>`", chatid)
+                        bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: */random* `<Dein Objekt/Person...>`", chatid)
                 if (command[0] == "/help"):
                     if str(userid) in admins:
                        adminhelp = helptext + "\n/admincommands - Sende commands für Admins"
@@ -235,15 +242,6 @@ while (1):
                        break
                     else:
                         bot.sende_nachricht(helptext, chatid, nachrichtid)
-                if (command[0] == "/tl"):
-                    if (len(message) > 1):
-                        words = len(message)
-                        for x in range(2, words):
-                            print(message[x])
-                        gs = goslate.Goslate()
-                        tltext = (gs.translate("hallo", "en"))
-                    else:
-                        bot.sende_nachricht("Blablablubb", chatid, nachrichtid)
 
                 if (command[0] == "/feedback"):
                     if (len(message) > 1):
@@ -251,11 +249,11 @@ while (1):
                         send = "Ein feedback von " + uservorname + "(" + str(userid) + ") wurde gesendet. \n"
                         for x in range(1, words):
                             send = send + message[x] + " "
-                        bot.sende_nachricht(send, -151573627)
+                        bot.sende_nachricht(send, admingroup)
                         bot.sende_nachricht("Dein Feedback wurde versendet! Wir werden dich kontaktieren!", chatid)
                     else:
                         bot.sende_nachricht(
-                            "Bitte schicke mir diesen Command so: \n /feedback `<Deine VerbesserungsvorschlÃ¤ge, Dein Lob, was au immer>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
+                            "Bitte schicke mir diesen Command so: \n */feedback* `<Deine VerbesserungsvorschlÃ¤ge, Dein Lob, was au immer>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
     # Die zu /gruppen gehörenden Commands
 
                 if (command[0] == "/gruppen"):
@@ -277,7 +275,7 @@ while (1):
                         bot.sende_nachricht(send, -151573627)
                         bot.sende_nachricht("Dein Vorschlag wurde versendet! Wir werden dich kontaktieren!", chatid, nachrichtid)
                     else:
-                        bot.sende_nachricht("Bitte schicke mir dieses Command so: \n /gruppevorschlagen `<Gruppenname und kurze Vorstellung der Gruppe>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
+                        bot.sende_nachricht("Bitte schicke mir dieses Command so: \n */gruppevorschlagen* `<Gruppenname und kurze Vorstellung der Gruppe>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
     # Alles was mit Usergruppen zu tun hat
                 if (command[0] == "/usergroup"):
                     if (str(userid) in admins):
@@ -410,7 +408,7 @@ while (1):
                         except TypeError:
                             bot.sende_nachricht("Etwas stimmt mit der ID nicht.", chatid)
                         except:
-                            bot.sende_nachricht("*Ups*, hast du die Nachricht so verschickt? \n `/send <id> <nachricht>`", chatid)
+                            bot.sende_nachricht("*Ups*, hast du die Nachricht so verschickt? \n */send* `<id> <nachricht>`", chatid)
                     else:
                         alarm("*Nutzen von /send ohne Admin*")
 
