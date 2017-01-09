@@ -1,0 +1,9 @@
+pyqrcode
+cleverbot
+image
+requests
+telegraph
+regex
+pyshorteners
+chatter
+requests
