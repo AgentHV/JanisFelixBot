@@ -2,16 +2,16 @@
 from chatter.telegramBot import TelegramBot
 #----------------------------WICHTIG-------------------------------
 # Bitte ersetze folgende Werte durch deine:
-bot = TelegramBot("Dein Bot token")
-api_key = "Dein API_key für die Goo.gl API"
-admingroup = Deine ID der AdminGruppe
+bot = TelegramBot("")
+api_key = ""
+admingroup = 
 #----------------------------WICHTIG-------------------------------
 # Die benötigten module:
 import time
+import cat
 import os
 import pyqrcode
 import regex
-import goslate
 from os.path import isfile
 from telegraph import Telegraph
 from cleverbot import Cleverbot
@@ -414,10 +414,22 @@ while (1):
 
     # Die zu /pictures gehörenden Commands
                 if (command[0] == "/pictures"):
-                    bot.sende_nachricht("Es gibt die folgenden Bilder: \n /icon - Das Profilbild des bots", chatid, nachrichtid)
+                    bot.sende_nachricht("Es gibt die folgenden Bilder:\n/cats - Katzenbilder 🐱 \n/icon - Das Profilbild des bots", chatid, nachrichtid)
 
                 if (command[0] == "/icon"):
                     bot.sende_bild("pictures/icon.jpg", chatid)
+
+                if (command[0] == "/cats"):
+                   catszahl = randint(0, 2)
+                   if catszahl == 0:
+                      format = "gif"
+                   if catszahl == 1:
+                      format = "png"
+                   if catszahl == 2:
+                      format = "jpg"
+                   cat.getCat(filename="cat", format=format)
+                   bot.sende_bild("cat." + str(format), chatid)
+                   os.remove("cat." + str(format))
 
     # Spaßantworten
                 x = 0
@@ -429,4 +441,7 @@ while (1):
                     command[x] = dat.lower()
                     x = x + 1
                 if ("tobs" in message or "tobs" in command):
-                    bot.sende_nachricht("Tobs... Tobs ist toll! \nSo *richtig richtig* toll!❤️", chatid, nachrichtid)
+                    bot.sende_nachricht("Tobs... Tobs ist toll!\nSo *richtig richtig* toll!❤️", chatid, nachrichtid)
+                if ("tim" in message or "tim" in command):
+                    bot.sende_nachricht("Tim... Tim ist gay!\nSo richtig richtig gay!", chatid, nachrichtid)
+
