@@ -1,5 +1,5 @@
 # JanisFelixBot
-
+<img src="https://raw.githubusercontent.com/Sonixier/JanisFelixBot/master/JanisFelixBot/pictures/icon.jpg" width="100" height="100" />
 ## MIT NEUER ANLEITUNG ZUM AUFSETZEN DES BOTS
 
 Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
