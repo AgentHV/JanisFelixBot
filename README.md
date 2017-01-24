@@ -6,7 +6,7 @@ Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
 janisfelixbot: https://telegram.me/janis_felix_bot   
 beta: https://telegram.me/JanisFelixBetaBot   
-Webseite: https://JanisFelixBot.tk   
+Webseite: http://JanisFelixBot.tk   
 
 
 # Installation
