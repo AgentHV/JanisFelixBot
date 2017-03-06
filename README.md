@@ -1,6 +1,6 @@
 # JanisFelixBot
 <img src="https://raw.githubusercontent.com/Sonixier/JanisFelixBot/master/JanisFelixBot/pictures/icon.jpg" width="100" height="100" />
-## MIT NEUER ANLEITUNG ZUM AUFSETZEN DES BOTS
+## VIELE NEUE SACHEN!
 
 Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
@@ -18,7 +18,6 @@ Python 3 wird vorausgesetzt.
    Windows: Starte ein cmd-Fenster Im Verzeichnis ``Downloadverzeichnis\JanisFelixBot-master\JanisFelixBot`` und gebe folgenden Befehl ein: ``py -m pip install -r requirements.txt``   
 3. Ersetze nun die folgende Werte direkt am Anfang der Bot.py:   
 `bot = TelegramBot("`Hier muss dein Telegram Bot-Token rein`")`   
-`api_key = "`Hier muss dein Token der goo.gl API rein`"`   
 `admingroup = `Hier muss die ID der Admingruppe rein   
   In die Admingruppe sendet der Bot Nachrichten wenn ein Nicht-Admin probiert etwas für Admins auszuführen.
 4. Nun ersetze den Text der admins.txt mit deiner ID. Später können per /addadmin mehr Admins hinzugefügt werden.  
