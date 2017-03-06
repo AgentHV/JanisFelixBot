@@ -7,16 +7,19 @@ api_key = ""
 admingroup = 
 #----------------------------WICHTIG-------------------------------
 # Die benötigten module:
+import json
+import urllib.request
 import time
-import cat
 import os
 import pyqrcode
 import regex
+import shutil
+import wikipedia
 from os.path import isfile
 from telegraph import Telegraph
 from cleverbot import Cleverbot
-from pyshorteners import Shortener
 from random import randint
+wikipedia.set_lang("de")
 bot.gehe_online()
 nachrichten = bot.hole_updates()
 telegraph = Telegraph()
@@ -27,11 +30,6 @@ admins = open("admins.txt").readlines()
 for x in admins:
     admins[n] = x.rstrip()
     n += 1
-n = 0
-bitusers = open("bits/users.txt").readlines()
-for x in bitusers:
-    bitusers[n] = int(x.rstrip())
-    n += 1
 blacklist = open("blacklist.txt").readlines()
 helptext = open("messages/help.txt").read()
 def alarm(verstoss):
@@ -39,49 +37,16 @@ def alarm(verstoss):
     bot.sende_nachricht(send, admingroup)
     print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "]" + send))
     bot.sende_nachricht("Du bist kein Admin, Anzeige ist raus!", chatid, nachrichtid)
-def setbits(bits, userid):
-    filename = "bits/" + str(userid) + ".txt"
-    if (isfile(filename)):
-        dailybits = readdailybits(userid)
-        with open(filename, 'w') as file:
-            file.write(str(bits) + "\n" + dailybits)
-    else:
-        with open(filename, 'x') as file:
-            file.write(str(bits))
 
-def readbits(userid):
-    filename = "bits/" + str(userid) + ".txt"
-    with open(filename, 'r') as file:
-        filecontent = file.readlines()
-        return int(filecontent[0])
-
-def setdailybits(bits, userid):
-    filename = "bits/" + str(userid) + ".txt"
-    if (isfile(filename)):
-        oldbits = str(readbits(userid))
-        with open(filename, 'w') as file:
-            file.write(oldbits + "\n" + str(bits) + "\n" + uservorname)
-
-def readdailybits(userid):
-    filename = "bits/" + str(userid) + ".txt"
-    with open(filename, 'r') as file:
-        filecontent = file.readlines()
-        return int(filecontent[1])
-
-print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "] Der Bot wurde erfolgreich gestartet! Die IDs der Admins sind: " + str(admins) + "Die User der Bits sind:" + str(bitusers)))
+print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "] Der Bot wurde erfolgreich gestartet! Die IDs der Admins sind: " + str(admins)))
 while (1):
-    if (time.localtime()[3] == 0 and not given):
-        given = True
-        for userid in bitusers:
-            setbits(readbits(userid) + readdailybits(userid), userid)
-    if (time.localtime()[3] > 0 and given):
-        given = False
-
     nachrichten = bot.hole_updates()
     for nachrichtraw in nachrichten:
         chatid=nachrichtraw.chat.id
         userid=nachrichtraw.sender.id
         uservorname=nachrichtraw.sender.vorname
+        usernachname = nachrichtraw.sender.nachname
+        username = nachrichtraw.sender.username
         nachrichtid=nachrichtraw.id
         answereduserid=0
         if (nachrichtraw.antwort == None):
@@ -94,14 +59,51 @@ while (1):
             message = nachrichtraw.inhalt.split()
             command = message[0].split("@")
             if ((len(command) > 1 and command[1] == "JanisFelixBetaBot") or len (command) == 1):
+                afkusers = open("afkusers.txt").readlines()
+                print(userid)
+                print(afkusers)
+                #if (str(userid) in str(afkusers)):
+                    #print("wieder da")
+                    #afkusers.replace(userid, "")
+                    #bot.sende_nachricht(str(uservorname) + " ist wieder da.", chatid)
                 if (command[0]== "/start"):
-                    bot.sende_nachricht("Hallo, ich bin der *Janisfelixbot*! Programmiert haben mich @flixlix und @sonixier mithilfe von [Felix's Fork der vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin! Schreibe /help für eine Liste der Befehle.", chatid, nachrichtid)
-
+                    bot.sende_nachricht("Hallo, ich bin der *Janisfelixbot*! Programmiert haben mich @ChisanaNekoFlix und @sonixier mithilfe von [Felix's Fork der vereinfachten Bot-API](https://github.com/Flixlix/telegram-chatter). Bitte denk daran, dass ich noch nicht 24/7 online und nur eine Beta bin! Schreibe /help für eine Liste der Befehle.", chatid, nachrichtid)
+                if (command[0]== "/afk"):
+                    if (len(message) > 1):
+                       words = len(message)
+                       afkgrund = " "
+                       for x in range(1, words):
+                          afkgrund = afkgrund + message[x] + " "
+                       bot.sende_nachricht(uservorname + " ist nun afk. (" + afkgrund + ")", chatid)
+                    else:
+                       bot.sende_nachricht(uservorname + " ist nun afk.", chatid, nachrichtid)
+                    afkusers.append(str(userid))
+                    with open("afkusers.txt", "a") as file:
+                         newline = " \n " + str(userid)
+                         file.write(newline)
+                    print("nun afk")
+                if (command[0]== "/about"):
+                    bot.sende_nachricht("[JANISFELIXBOT](t.me/janis_felix_bot)\nmade with ❤️by [Janis](t.me/sonixier) & [Felix](t.me/ChisanaNekoFlix)\n\n[Den Bot im SoreBot bewerten](https://telegram.me/storebot?start=janis_felix_bot)\n[Github](https://github.com/Sonixier/JanisFelixBot)\n[Webseite](https://janisfelixbot.tk/)\n[vereinfachte Bot-API](https://github.com/Flixlix/telegram-chatter)", chatid)
+                if (command[0] == "/btc"):
+                    with urllib.request.urlopen('https://blockchain.info/de/ticker') as response:
+                        html = response.read().decode()
+                    btcdictionary = json.loads(html)
+                    eurbtc = btcdictionary['EUR']['last']
+                    usdbtc = btcdictionary['USD']['last']
+                    sendmsg = "Ein Bitcoin entspricht " + str(eurbtc) + " € oder auch " + str(usdbtc) + "$. \nWir nutzen für diesen Service die [API von blockchain.info](https://blockchain.info/de/api/exchange_rates_api)"
+                    bot.sende_nachricht(sendmsg, chatid)
                 if (command[0] == "/id"):
-                    send="Chat-ID: "+ str(chatid) + "\n Deine ID: " + str(userid) + "\n Vorname: " + str(uservorname)
+                    send="Chat-ID: "+ str(chatid) + "\nDeine ID: " + str(userid) + "\nName: " + str(uservorname) + " " + str(usernachname) + "\nUsername: " + str(username)
                     if (answered == True):
                         send=send + "\n Die ID der Person, auf die du geantwortet hast: " + str(answereduserid)
                     bot.sende_nachricht(send, chatid, nachrichtid)
+
+                #if (command[0] == '/ban'):
+                    #if(bot.request("getChatMemeber?chat_id=" + chatid + userid['status']) == 'creator' or bot.request("getChatMemeber?chat_id=" + chatid + "&user_id=" + userid['status'] == 'administrator'):
+                        #bot.ban(answereduserid, chatid)
+                        #bot.sende_nachricht("Gebannt!", chatid, antwort_id=nachrichtid)
+                    #else:
+                        #bot.sende_nachricht("Du Schlingel willst jemanden bannen, obwohl du kein Admin bist? Tss tss tss...", chatid, antwort_id=userid)
 
                 if ("janisfelixbot" in message or "JanisFelixBot" in command):
                     if (len(message) > 1):
@@ -113,7 +115,7 @@ while (1):
                   if (len(message) > 1):
                     words = len(message)
                     for x in range(1, words):
-                      hostname = message[x] 
+                      hostname = message[x]
                       response = os.system("ping -c 1 " + hostname)
                       if response == 0:
                          up = message[x] + " ist online!"
@@ -124,7 +126,7 @@ while (1):
                   else:
                       bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: */isup* `<Dein Link>` ", chatid, nachrichtid)
                 if (command[0] == "/null"):
-                    bot.sende_nachricht(" ", chatid)
+                    bot.sende_nachricht(" ​", chatid)
                 if (command[0] == "/echo"):
                     if (len(message) > 1):
                         words = len(message)
@@ -137,33 +139,73 @@ while (1):
                             "Bitte schicke mir diesen Command so: \n */echo* `<Dein Text>` \n Gibt deinen Text aus. *Markdown* wird unterstützt!", chatid, nachrichtid)
 
                 if (command[0] == "/markdown"):
-                    bot.sende_nachricht("Es gibt die folgenden Formatierungen: \n//*bold//*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
-                    bot.sende_nachricht("Diese sind wie folgt anzuwenden: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
+                    bot.sende_nachricht("Es gibt die folgenden Formatierungen: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk)", chatid, nachrichtid)
+                    bot.sende_nachricht("Diese sind wie folgt anzuwenden: \n*bold*\n _italic_\n `fixedsys`\n [Link](www.janisfelixbot.tk\nBitte bedenke, dass nur Bots Links verschicken können. Um das zu umgehen, empfehlen wir dir, @bold zu verwenden.)", chatid, nachrichtid, markdown=False)
 
                 if (command[0] == "/time"):
                     datum = str(time.strftime("%d.%m.%Y"))
                     zeit = str(time.strftime(" %H:%M:%S"))
                     bot.sende_nachricht("Datum: " + str(datum) + "\nUhrzeit:" + str(zeit), chatid, nachrichtid)
-
-                if (command[0] == "/short"):
+                if (command[0] == "/wiki"):
                   if (len(message) > 1):
-                     words = len(message)
-                     for x in range(1, words):
-                       try:
-                          url = message[x]
-                          shortener = Shortener("Google", api_key=api_key)
-                          bot.sende_nachricht("Der gekürtzte Link lautet: {}".format(shortener.short(url)), chatid, nachrichtid)
-                       except ValueError:
-                          bot.sende_nachricht("*Ups*, `" + url + "` ist keine Internetadresse. Bitte beachte das http:// bzw. https:// im Link stehen muss.", chatid, nachrichtid)
+                      try:
+                          words = len(message)
+                          for x in range(1, words):
+                              tgmsg = message
+                              sendtgmsg = ' '.join(tgmsg)
+                          newtgmsg = sendtgmsg.replace("/wiki", "")
+                          wiki = wikipedia.page(newtgmsg)
+                          url = wiki.url
+                          titel = "*" + wiki.title + "*"
+                          diekomplettewikimsg = titel + "\n" + wikipedia.summary(newtgmsg, sentences=3) + "\n[Artikel aufrufen](" + url + ")"
+                          bot.sende_nachricht(diekomplettewikimsg, chatid, nachrichtid)
+                      except wikipedia.exceptions.DisambiguationError:
+                          bot.sende_nachricht("Es existieren mehrere Seiten mit diesem Titel. Bitte benutze einen anderen Suchbegriff.", chatid, nachrichtid)
+                      except wikipedia.exceptions.PageError:
+                          bot.sende_nachricht("Unter dem Suchbegriff wurde kein Artikel gefunden.", chatid, nachrichtid)
+                      except wikipedia.exceptions.HTTPTimeoutError:
+                          bot.sende_nachricht("Keine Antwort vom Server. Vielleicht ist Wikipedia offline? Probiere mal `/isup https://www.wikipedia.org`", chatid, nachrichtid)
+                          bot.sende_nachricht("*Ein Fehler ist aufgetreten!*\nCommand: " + sendtgmsg + "\nFehler:HTTPTimeoutError\nKeine Antwort vom Server. Vielleicht ist Wikipedia offline?", admingroup)
+                      except wikipedia.exceptions.WikipediaException:
+                          bot.sende_nachricht("Ein Fehler ist aufgetreten. Bitte versuche es nocheinmal.", chatid, nachrichtid)
+                          bot.sende_nachricht("*Ein Fehler ist aufgetreten!*\nCommand: " + sendtgmsg + "\nFehler:WikipediaException\nEin Fehler ist aufgetreten.", admingroup)
+                      except wikipedia.exceptions.RedirectError:
+                          bot.sende_nachricht("Unerwartet auf eine andere Seite weitergeleitet. Vielleicht ist der Artikel ein Platzhalter?", chatid, nachrichtid)
+                      except ValueError:
+                          bot.sende_nachricht("Ein Fehler ist aufgetreten.", chatid, nachrichtid)
+                          bot.sende_nachricht("*Ein Fehler ist aufgetreten!*\nCommand: " + sendtgmsg + "\nFehler:ValueError\nStimmt etwas nicht mit den Wörtern im command nicht?", admingroup)
                   else:
-                      bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: */short* `<Dein Link>`", chatid, nachrichtid)
+                      bot.sende_nachricht("*Ups*, bitte schicke mir diesen Command so: */wiki* `<Dein Suchbegriff>`", chatid, nachrichtid)
+                if (command[0] == "/short"):
+                    if (len(message) == 2):
+                        with urllib.request.urlopen('https://api-ssl.bitly.com/v3/shorten?longUrl='+message[1]+'&access_token=6e9523c8866cdb7b1d2bd9d281d858c5751d7324') as response:
+                            html = response.read().decode()
+                        bitly = json.loads(html)
+                        if ('status_txt' in bitly and bitly['status_txt'] == "OK"):
+                            shortenurl = bitly['data']['url'].replace("\/", "")
+                            shortenurl = shortenurl.replace("http:", "")
+                            bot.sende_nachricht("Die gekürzte URL lautet:\n" + shortenurl, chatid, nachrichtid)
+                        else:
+                            bot.sende_nachricht("Ups, `" + message[1] + "` ist keine Internetadresse oder irgendetwas ist schiefgegangen. Bitte beachte dass http:// bzw. https:// im Link stehen muss. Wenn du dir sicher bist, alles richtig gemacht zu haben, versuch es später einfach nochmal.", chatid, nachrichtid)
+                    else:
+                        bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: */short* `<Dein Link>`", chatid, nachrichtid)
                 if (command[0] == "/qrgen"):
                     if (len(message) > 1):
-                        words = len(message)
-                        qr = pyqrcode.create(message[x])
-                        qr.png("qrcode.png", scale=20)
-                        bot.sende_bild("qrcode.png", chatid)
-                        os.remove("qrcode.png")
+                        try:
+                           words = len(message)
+                           qrtext = "\n"
+                           for x in range(1, words):
+                               qrtext = qrtext + message[x] + " "
+                           qrtext = qrtext[:-1]
+                           qrtext = qrtext.lstrip()
+                           qrlink = "http://api.qrserver.com/v1/create-qr-code/?data=" + qrtext + "&size=512x512"
+                           print(qrlink)
+                           with urllib.request.urlopen(qrlink) as response, open("qrcode.png", 'wb') as out_file:
+                               shutil.copyfileobj(response, out_file)
+                           bot.sende_bild("qrcode.png", chatid)
+                           os.remove("qrcode.png")
+                        except:
+                           bot.sende_nachricht("Ein Fehler ist aufgetreten. Bitte achte darauf kein *ä*, *ö* oder *ü* oder Sonderzeichen zu verwenden.", chatid)
                 if (command[0] == "/telegraph"):
                     if (len(message) > 1):
                         words = len(message)
@@ -171,7 +213,6 @@ while (1):
                             tgmsg = message
                             sendtgmsg = ' '.join(tgmsg)
                         newtgmsg = sendtgmsg.replace("/telegraph", "")
-                        newtgmsg = newtgmsg + "\n\nDieses Telegraph wurde mit JanisFelixBot (t.me/Janis_Felix_Bot) erstellt."
                         telegraph.create_account(short_name=uservorname)
                         response = telegraph.create_page(uservorname + " (" + str(userid) + ") Telegraph",
                                                          html_content='<p>' + str(newtgmsg) + '</p>')
@@ -185,54 +226,47 @@ while (1):
                         if randomzahl == 0:
                                 words = len(message)
                                 send = " " + str(uservorname) + " gibt "
-                                for x in range(1, words):
-                                    send = send + message[x] + " einen Keks."
-                                    bot.sende_nachricht(send, chatid)
-                                    break
+                                send = send + nachrichtraw.inhalt.replace(message[0], '') + " einen Keks."
+                                bot.sende_nachricht(send, chatid)
+                                break
                         if randomzahl == 1:
                                 words = len(message)
                                 send = " " + str(uservorname) + " ? "
-                                for x in range(1, words):
-                                    send = send + message[x] + "!"
-                                    bot.sende_nachricht(send, chatid)
-                                    break
+                                send = send + nachrichtraw.inhalt.replace(message[0], '') + "!"
+                                bot.sende_nachricht(send, chatid)
+                                break
                         if randomzahl == 2:
                                 words = len(message)
                                 send = " "
-                                for x in range(1, words):
-                                    send = send + message[x] + " liebt Lua."
-                                    bot.sende_nachricht(send, chatid)
-                                    break
+                                send = send + nachrichtraw.inhalt.replace(message[0], '') + " liebt Lua."
+                                bot.sende_nachricht(send, chatid)
+                                break
                         if randomzahl == 3:
                                 words = len(message)
                                 send = " "
-                                for x in range(1, words):
-                                    send = send + str(uservorname) + " kcsst "
-                                    send = send + message[x] + " leidenschaftlich."
-                                    bot.sende_nachricht(send, chatid)
-                                    break
+                                send = send + str(uservorname) + " küsst "
+                                send = send + nachrichtraw.inhalt.replace(message[0], '') + " leidenschaftlich."
+                                bot.sende_nachricht(send, chatid)
+                                break
                         if randomzahl == 4:
                                 words = len(message)
                                 send = " "
-                                for x in range(1, words):
-                                    send = send + message[x] + " mag TouchWiz. "
-                                    send = send + str(uservorname) + " hingegen versucht ihm CyanogenMod aufzuquatschen."
-                                    bot.sende_nachricht(send, chatid)
-                                    break
+                                send = send + nachrichtraw.inhalt.replace(message[0], '') + " mag TouchWiz. "
+                                send = send + str(uservorname) + " hingegen versucht ihm CyanogenMod aufzuquatschen."
+                                bot.sende_nachricht(send, chatid)
+                                break
                         if randomzahl == 5:
                                 words = len(message)
                                 send = " "
-                                for x in range(1, words):
-                                    send = send + message[x] + " ist ein typischer Fall von einem gerissenen Kondom."
-                                    bot.sende_nachricht(send, chatid)
-                                    break
+                                send = send + nachrichtraw.inhalt.replace(message[0], '') + " ist ein typischer Fall von einem gerissenen Kondom."
+                                bot.sende_nachricht(send, chatid)
+                                break
                         if randomzahl == 6:
                                 words = len(message)
                                 send = "Sag "
-                                for x in range(1, words):
-                                    send = send + message[x] + ", er soll sich verstecken. Die Müllabfuhr kommt!"
-                                    bot.sende_nachricht(send, chatid)
-                                    break
+                                send = send + nachrichtraw.inhalt.replace(message[0], '') + ", es soll sich verstecken. Die Müllabfuhr kommt!"
+                                bot.sende_nachricht(send, chatid)
+                                break
                     else:
                         bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so: */random* `<Dein Objekt/Person...>`", chatid)
                 if (command[0] == "/help"):
@@ -253,7 +287,7 @@ while (1):
                         bot.sende_nachricht("Dein Feedback wurde versendet! Wir werden dich kontaktieren!", chatid)
                     else:
                         bot.sende_nachricht(
-                            "Bitte schicke mir diesen Command so: \n */feedback* `<Deine VerbesserungsvorschlÃ¤ge, Dein Lob, was au immer>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
+                            "Bitte schicke mir diesen Command so: \n */feedback* `<Deine Verbesserungsvorschläge, Dein Lob, was au immer>` \n Wir werden dich dann kontaktieren. Bitte denke jedoch daran wenn du rumspammst, dass du dann einen Ban kassieren kannst!", chatid, nachrichtid)
     # Die zu /gruppen gehörenden Commands
 
                 if (command[0] == "/gruppen"):
@@ -284,67 +318,7 @@ while (1):
                         bot.sende_nachricht("Du bist *gebannt*!", chatid, nachrichtid)
                     else:
                         bot.sende_nachricht("Du wurdest *nicht kategorisiert*!", chatid, nachrichtid)
-    #Die Bits (B)
-                if (command[0] == "/bits"):
-                    filename = "bits/" + str(userid) + ".txt"
-                    if (userid in bitusers):
-                        bot.sende_nachricht(("Hallo " + str(uservorname) + "! Dein aktueller Kontostand ist `" + str(readbits(userid)) + "` Bits. Du bekommst jeden Tag `" + str(readdailybits(userid)) + "` Bits.\nDu kannst folgende Befehle benutzen:\n/givebits <Anzahl der zu überweisenden Bits> Bitte denke daran, auf die Person der du Bits schicken willst zu antworten."), chatid)
-                    else:
-                        bot.sende_nachricht("Hallo " + str(uservorname) + "! Nutze /bitsreg um dir ein BitKonto anzulegen und diesen Service nutzen zu können!", chatid)
-                if (command[0] == "/givebits"):
-                    if (answered==True and len(message) > 1):
-                        if (message[1].isdigit()):
-                            with open("bits/logs.txt", 'a') as log:
-                                log.write("Überweisung: " + answeredusername + " (" + str(answereduserid) + ") hat " + message[1] + "von " + uservorname + " (" + str(userid) + ") bekommen.")
-                                if (readbits(userid) > int(message[1])):
-                                    if answereduserid in bitusers:
-                                        if userid in bitusers:
-                                            setbits(readbits(userid) - int(message[1]), userid)
-                                            setbits(readbits(answereduserid) + int(message[1]), answereduserid)
-                                            log.write("Überweisung durchgeführt!")
-                                            bot.sende_nachricht("Deine Überweisung von `" + message[1] + "` B an " + answeredusername + " wurde durchgeführt. Du hast jetzt noch `" + str(readbits(userid)) + "` B.", chatid)
-                                            bot.sende_nachricht(uservorname + " hat dir `" + str(message[1]) + "` Bits geschickt. Dank ihm/ihr hast du jetzt `" + str(readbits(answereduserid)) + "` B.", answereduserid)
-                                        else:
-                                            bot.sende_nachricht("Du hast kein Bitkonto!", chatid)
-                                    else:
-                                        bot.sende_nachricht(answeredusername + " hat kein Bitkonto!", chatid)
-                                else:
-                                    bot.sende_nachricht("Du hast nicht genug B!", chatid)
-                        else:
-                            bot.sende_nachricht("Bitte antworte auf jemanden, wenn du mir dieses Command sendest. Ausserdem muss nach /givebits die Anzahl der zu überweisenden Bits stehen.", chatid)
-                    else:
-                        bot.sende_nachricht("Bitte antworte auf jemanden, wenn du mir dieses Command sendest. Ausserdem muss nach /givebits die Anzahl der zu überweisenden Bits stehen.", chatid)
-                if (command[0] == "/bitsreg"):
-                    filename = "bits/" + str(userid) + ".txt"
-                    if (not isfile(filename)):
-                        setbits(1000, userid)
-                        setdailybits(100, userid)
-                        with open("bits/users.txt", 'a') as file:
-                            file.write("\n" + userid)
-                            bitusers.append(userid)
-                        bot.sende_nachricht("Dein BitKonto wurde angelegt! Du hast `1000` B Startkapital. Nutze /bits um anzufangen. Tipp: Starte den Bot privat, um dieses Feature bestmöglich nutzen zu können.\nBitte beachte, dass alle Zahlungen geloggt werden!", chatid)
-                    else:
-                        bot.sende_nachricht("Du hast bereits ein BitKonto. Wenn du es neu anlegen lassen möchtest, kontaktiere bitte @flixlix oder @sonixier!", chatid)
-                if (command[0] == "/delbitkonto"):
-                    if (str(userid) in admins):
-                        if (str(answereduserid) == '0'):
-                            bot.sende_nachricht("Bitte antworte auf die Person von der du das BitKonto löschen willst.", chatid)
-                            break
-                        filename = "bits/" + str(answereduserid) + ".txt"
-                        if (userid in bitusers):
-                            os.remove(filename)
-                            bitusers.remove(userid)
-                            with open("bits/users.txt", 'w') as file:
-                                for userid in bitusers:
-                                    file.write(userid + "\n")
-                            bot.sende_nachricht("Das Konto der ID "+ str(answereduserid) + " wurde gelöscht.", chatid)
-                            break
-                        if not (isfile(filename)):
-                            bot.sende_nachricht("Dieser User hat kein BitKonto.", chatid)
-                            break
-                    else:
-                        bot.sende_nachricht("Du bist kein globaler Admin!", chatid)
-                        break
+
     # Admincommands
                 if (command[0]== "/admincommands"):
                     if (str(userid) in admins):
@@ -353,7 +327,7 @@ while (1):
                     else:
                         bot.sende_nachricht("Du kannst die Befehle für Admins nicht abrufen, da du kein *globaler Admin* bist!", chatid, nachrichtid)
 
-                if (command[0] == "/ban"):
+                if (command[0] == "/botban"):
                     if (str(userid) in admins):
                         if (str(answereduserid) in admins):
                             bot.sende_nachricht("Ein globaler Admin kann nicht vom Bot gebannt werden!", chatid, nachrichtid)
@@ -371,7 +345,7 @@ while (1):
                         if (str(answereduserid) in blacklist):
                             bot.sende_nachricht("Der User ist bereits vom Bot gebannt!", chatid, nachrichtid)
                     else:
-                        alarm("*Jemanden mit /ban vom Bot bannen*")
+                        alarm("*Jemanden mit /botban vom Bot bannen*")
 
                 if (command[0] == "/addadmin"):
                     if (str(userid) in admins):
@@ -392,7 +366,7 @@ while (1):
                     if (str(userid) in admins):
                         print("[" + str(time.strftime("%d.%m.%Y %H:%M") + "] Der Bot wurde von Admin " + uservorname + " neugestartet"))
                         bot.sende_nachricht("Der Bot wird jetzt neugestartet...", chatid, nachrichtid)
-                        raise BotStop(uservorname)
+                        raise "reload"
                     else:
                         alarm("*Bot mit /reload neustarten*")
 
@@ -414,11 +388,30 @@ while (1):
 
     # Die zu /pictures gehörenden Commands
                 if (command[0] == "/pictures"):
-                    bot.sende_nachricht("Es gibt die folgenden Bilder:\n/cats - Katzenbilder 🐱 \n/icon - Das Profilbild des bots", chatid, nachrichtid)
-
+                    bot.sende_nachricht("Es gibt die folgenden Bilder:\n/icon - Das Profilbild des bots\n/cats - Katzenbilder\n/doge - Erstelle ein Doge-Meme mit deinem Text", chatid, nachrichtid)
                 if (command[0] == "/icon"):
                     bot.sende_bild("pictures/icon.jpg", chatid)
-
+                if (command[0] == "/doge"):
+                    if (len(message) > 1):
+                        try:
+                           sendtgmsg = ' '.join(message)
+                           print(sendtgmsg)
+                           newtgmsg = sendtgmsg.replace("/doge", "")
+                           print(newtgmsg)
+                           doge = newtgmsg.replace(" ", "")
+                           doge2 = doge.replace(";", "/")
+                           doglink = "http://dogr.io/" + doge2 + ".png"
+                           dogeimage = "doge.png"
+                           print(doglink)
+                           with urllib.request.urlopen(doglink) as response, open(dogeimage, 'wb') as out_file:
+                               shutil.copyfileobj(response, out_file)
+                           bot.sende_bild(dogeimage, chatid)
+                           bot.sende_nachricht("Dies ist eine beta und noch nicht gänzlich ausgereift. Wenn du nur ein leeres Bild oder den Text\n`wow\nvery error parsing\nsuch sorry`\nerhältst, leite diese Nachricht bitte an einen meiner Entwickler weiter.\n\n*" + doglink + "\n" + doge2 + "*", chatid)
+                           os.remove("doge.png")
+                        except:
+                           bot.sende_nachricht("Ein Fehler ist aufgetreten. Bitte achte darauf kein *ä*, *ö* oder *ü* oder Sonderzeichen zu verwenden.", chatid)
+                    else:
+                        bot.sende_nachricht("*Ups*, bitte schicke mir diesen command so:\n*/doge* `<erste Zeile/zweite Zeile/dritte Zeile...>`\nTrenne Zeilen mit einem /. Bitte beachte das dies eine Beta ist!",chatid)
                 if (command[0] == "/cats"):
                    catszahl = randint(0, 2)
                    if catszahl == 0:
@@ -427,21 +420,19 @@ while (1):
                       format = "png"
                    if catszahl == 2:
                       format = "jpg"
-                   cat.getCat(filename="cat", format=format)
-                   bot.sende_bild("cat." + str(format), chatid)
-                   os.remove("cat." + str(format))
+                   catname = "cat." + str(format)
+                   catlink = "http://thecatapi.com/api/images/get?format=src&type=" + format
+                   with urllib.request.urlopen(catlink) as response, open(catname, 'wb') as out_file:
+                       shutil.copyfileobj(response, out_file)
+                   bot.sende_bild(catname, chatid)
+                   os.remove(catname)
 
     # Spaßantworten
                 x = 0
                 for dat in message:
                     message[x] = dat.lower()
-                    x = x + 1
+                    x += 1
                 x = 0
                 for dat in command:
                     command[x] = dat.lower()
-                    x = x + 1
-                if ("tobs" in message or "tobs" in command):
-                    bot.sende_nachricht("Tobs... Tobs ist toll!\nSo *richtig richtig* toll!❤️", chatid, nachrichtid)
-                if ("tim" in message or "tim" in command):
-                    bot.sende_nachricht("Tim... Tim ist gay!\nSo richtig richtig gay!", chatid, nachrichtid)
-
+                    x +=1
