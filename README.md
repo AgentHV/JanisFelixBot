@@ -1,12 +1,10 @@
 # JanisFelixBot
 <img src="https://raw.githubusercontent.com/Sonixier/JanisFelixBot/master/JanisFelixBot/pictures/icon.jpg" width="100" height="100" />
-## VIELE NEUE SACHEN!
+## FELIX HAT DIE ENTWICKLUNG VERLASSEN - BOT WIRD WEITERENTWICKELT VON MIR
 
 Ein mit Python und der vereinfachten Bot-API geschriebener Telegram-Bot.
 
 janisfelixbot: https://telegram.me/janis_felix_bot   
-beta: https://telegram.me/JanisFelixBetaBot   
-Webseite: http://JanisFelixBot.tk   
 
 
 # Installation
