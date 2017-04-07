@@ -1,6 +1,6 @@
 # JanisFelixBot
 <img src="https://raw.githubusercontent.com/Sonixier/JanisFelixBot/master/JanisFelixBot/pictures/icon.jpg" width="100" height="100" />
-# PROJEKT EINGESTELLT / CODE ZUR WEITERENTWICKLUNG VERFÜGBAR
+# PROJEKT EINGESTELLT / CODE ZUR WEITERENTWICKLUNG VERFÜGBAR   
 Ich finde es sehr schade verkünden zu müssen, dass JanisFelixBot nun eingestellt wird. Die Entwicklung mit Felix war eine schöne Zeit, aber er hat leider, was ich sehr bedauere, die Entwicklung aufgrund eines lächerlichen Streites verlassen. Der Code ist für jeden frei verfügbar.
 Falls ihr also Bock habt, drückt einfach den Fork Knopf, und schon kanns losgehen!
 
