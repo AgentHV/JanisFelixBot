@@ -5,6 +5,7 @@ image
 requests
 telegraph
 regex
-pyshorteners
 chatter
 requests
+json
+wikipedia
