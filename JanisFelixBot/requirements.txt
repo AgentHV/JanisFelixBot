@@ -6,6 +6,4 @@ requests
 telegraph
 regex
 chatter
-requests
-json
 wikipedia
